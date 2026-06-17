@@ -1,14 +1,12 @@
-package com.example.waiterapp.Cliente;
+package com.example.waiterapp.cliente;
 
 import com.example.waiterapp.Pedido.Pedido;
-import com.example.waiterapp.exceptions.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class ClienteService {

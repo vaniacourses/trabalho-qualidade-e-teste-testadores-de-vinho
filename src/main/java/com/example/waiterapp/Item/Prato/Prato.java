@@ -1,7 +1,9 @@
-package com.example.waiterapp.Item.Prato;
+package com.example.waiterapp.item.prato;
 
-import com.example.waiterapp.Ingrediente.Ingrediente;
-import com.example.waiterapp.Item.Item;
+import com.example.waiterapp.item.Item;
+import com.example.waiterapp.item.Item;
+
+
 import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;

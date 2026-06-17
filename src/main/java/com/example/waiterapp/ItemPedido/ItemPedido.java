@@ -1,7 +1,7 @@
 package com.example.waiterapp.ItemPedido;
 
-import com.example.waiterapp.Item.Item;
-import com.example.waiterapp.Pedido.Pedido;
+import com.example.waiterapp.item.Item;
+import com.example.waiterapp.pedido.Pedido;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.EmbeddedId;

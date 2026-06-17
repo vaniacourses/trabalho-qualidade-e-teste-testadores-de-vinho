@@ -1,5 +1,9 @@
-package com.example.waiterapp.Cardapio;
+package com.example.waiterapp.cardapio;
 
+import com.example.waiterapp.cardapio.Cardapio;
+import com.example.waiterapp.cardapio.CardapioDTO;
+import com.example.waiterapp.cardapio.CardapioRepository;
+import com.example.waiterapp.cardapio.CardapioService;
 import com.example.waiterapp.exceptions.ObjectNotFoundException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;

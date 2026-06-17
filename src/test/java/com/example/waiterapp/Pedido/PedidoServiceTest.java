@@ -1,13 +1,17 @@
-package com.example.waiterapp.Pedido;
+package com.example.waiterapp.pedido;
 
-import com.example.waiterapp.Cliente.Cliente;
-import com.example.waiterapp.Cliente.ClienteService;
-import com.example.waiterapp.Item.Item;
-import com.example.waiterapp.Item.ItemService;
 import com.example.waiterapp.ItemPedido.ItemPedido;
 import com.example.waiterapp.ItemPedido.ItemPedidoRepository;
-import com.example.waiterapp.Pagamento.PagamentoRepository;
+import com.example.waiterapp.cliente.Cliente;
+import com.example.waiterapp.cliente.ClienteService;
 import com.example.waiterapp.enums.Estado;
+import com.example.waiterapp.item.Item;
+import com.example.waiterapp.item.ItemService;
+import com.example.waiterapp.pagamento.PagamentoRepository;
+import com.example.waiterapp.pedido.Pedido;
+import com.example.waiterapp.pedido.PedidoRepository;
+import com.example.waiterapp.pedido.PedidoService;
+
 import com.example.waiterapp.exceptions.ObjectNotFoundException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
