@@ -28,9 +28,6 @@ public class ClientePedidoE2ETest {
 
         ChromeOptions options = new ChromeOptions();
 
-        // Deixe comentado para ver o navegador abrindo
-        // options.addArguments("--headless=new");
-
         options.addArguments("--no-sandbox");
         options.addArguments("--disable-dev-shm-usage");
         options.addArguments("--remote-allow-origins=*");

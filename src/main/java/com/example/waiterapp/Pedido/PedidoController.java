@@ -11,7 +11,6 @@ import javax.validation.Valid;
 import java.net.URI;
 import java.util.List;
 
-@CrossOrigin
 @RestController
 @RequestMapping(value = {"/api/pedidos"})
 public class PedidoController {
@@ -44,8 +43,6 @@ public class PedidoController {
     @PostMapping(consumes = "application/json")
     public ResponseEntity<Pedido> inserePedido(@Valid @RequestBody PedidoDTO pedidoDTO){
         Pedido pedido = pedidoService.transformarDTO(pedidoDTO);
-        System.out.print("Pedido enviado pelo request - ");
-        System.out.println(pedido);
         pedido = pedidoService.inserePedido(pedido);
 
         URI uri = ServletUriComponentsBuilder

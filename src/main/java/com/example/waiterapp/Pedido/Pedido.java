@@ -156,8 +156,7 @@ public class Pedido implements Serializable {
     }
 
     public void chamarGarcom(){
-        //Todo: Implementar chamarGarcom;
-        System.out.println("Implementar chamarGarcom");
+        // Todo: implementar notificação ao garçom
     }
 
     @Override

@@ -235,7 +235,7 @@ class PedidoTest {
     @Test
     @DisplayName("equals deve retornar false quando comparado com objeto de classe diferente")
     void equals_classesDiferentes_deveRetornarFalse() {
-        assertNotEquals(pedido, "uma string qualquer");
+        assertNotEquals("uma string qualquer", pedido);
     }
 
     @Test

@@ -1,7 +1,5 @@
 package com.example.waiterapp.Item;
 
-import com.example.waiterapp.Item.Bebida.BebidaRepository;
-import com.example.waiterapp.Item.Prato.PratoRepository;
 import com.example.waiterapp.exceptions.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -20,8 +18,6 @@ public class ItemService {
     }
     
     private ItemRepository itemRepository;
-    private BebidaRepository bebidaRepository;
-    private PratoRepository pratoRepository;
 
     @Autowired
     public ItemService(ItemRepository itemRepository){

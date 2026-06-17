@@ -6,7 +6,6 @@ import com.example.waiterapp.Item.Item;
 import com.example.waiterapp.Item.ItemService;
 import com.example.waiterapp.ItemPedido.ItemPedido;
 import com.example.waiterapp.ItemPedido.ItemPedidoRepository;
-import com.example.waiterapp.Pagamento.PagamentoRepository;
 import com.example.waiterapp.enums.Estado;
 import com.example.waiterapp.exceptions.ObjectNotFoundException;
 import org.junit.jupiter.api.BeforeEach;
@@ -35,7 +34,6 @@ import static org.mockito.Mockito.*;
 class PedidoServiceTest {
 
     @Mock private PedidoRepository pedidoRepository;
-    @Mock private PagamentoRepository pagamentoRepository;
     @Mock private ItemPedidoRepository itemPedidoRepository;
     @Mock private ItemService itemService;
     @Mock private ClienteService clienteService;

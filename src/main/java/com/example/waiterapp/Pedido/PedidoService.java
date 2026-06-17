@@ -4,7 +4,6 @@ import com.example.waiterapp.Cliente.ClienteService;
 import com.example.waiterapp.Item.ItemService;
 import com.example.waiterapp.ItemPedido.ItemPedido;
 import com.example.waiterapp.ItemPedido.ItemPedidoRepository;
-import com.example.waiterapp.Pagamento.PagamentoRepository;
 import com.example.waiterapp.enums.Estado;
 import com.example.waiterapp.exceptions.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,12 +13,12 @@ import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class PedidoService {
     
     private PedidoRepository pedidoRepository;
-    private PagamentoRepository pagamentoRepository;
     private ItemPedidoRepository itemPedidoRepository;
     private ItemService itemService;
     private ClienteService clienteService;
@@ -27,13 +26,11 @@ public class PedidoService {
     @Autowired
     public PedidoService(
             PedidoRepository pedidoRepository,
-            PagamentoRepository pagamentoRepository,
             ItemPedidoRepository itemPedidoRepository,
             ItemService itemService,
             ClienteService clienteService
     ) {
         this.pedidoRepository = pedidoRepository;
-        this.pagamentoRepository = pagamentoRepository;
         this.itemPedidoRepository = itemPedidoRepository;
         this.itemService = itemService;
         this.clienteService = clienteService;
@@ -66,10 +63,8 @@ public class PedidoService {
     }
 
     public Pedido retornaPedidoById(Long idPedido){
-        if(pedidoRepository.findById(idPedido).isPresent()){
-            return pedidoRepository.findById(idPedido).get();
-        }
-        return null;
+        Optional<Pedido> pedido = pedidoRepository.findById(idPedido);
+        return pedido.orElse(null);
     }
 
     @Transactional

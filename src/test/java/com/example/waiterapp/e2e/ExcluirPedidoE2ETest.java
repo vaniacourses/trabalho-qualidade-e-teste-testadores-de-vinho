@@ -29,10 +29,6 @@ public class ExcluirPedidoE2ETest {
         WebDriverManager.chromedriver().setup();
 
         ChromeOptions options = new ChromeOptions();
-
-        // Deixe comentado para ver o Chrome abrindo durante o teste
-        // options.addArguments("--headless=new");
-
         options.addArguments("--no-sandbox");
         options.addArguments("--disable-dev-shm-usage");
         options.addArguments("--remote-allow-origins=*");
@@ -43,7 +39,7 @@ public class ExcluirPedidoE2ETest {
     }
 
     @Test
-    void deveExcluirPedidoCriadoPeloCliente() throws InterruptedException {
+    void deveExcluirPedidoCriadoPeloCliente() {
         driver.get("http://localhost:8080/#/cliente/login");
 
         WebElement campoNome = wait.until(
@@ -126,14 +122,12 @@ public class ExcluirPedidoE2ETest {
                 "O pedido criado deveria aparecer na primeira linha da tabela"
         );
 
-        System.out.println("ID do pedido criado: " + idPedido);
-
         ((JavascriptExecutor) driver).executeScript(
                 "arguments[0].scrollIntoView({block: 'center'});",
                 celulaIdPedido
         );
 
-        Thread.sleep(1000);
+        wait.until(ExpectedConditions.elementToBeClickable(celulaIdPedido));
 
         String urlAntesDoClique = driver.getCurrentUrl();
 
@@ -154,9 +148,9 @@ public class ExcluirPedidoE2ETest {
             );
         }
 
-        Thread.sleep(1000);
-
-        System.out.println("URL depois de clicar no pedido: " + driver.getCurrentUrl());
+        wait.until(ExpectedConditions.elementToBeClickable(
+                By.xpath("//main//button[contains(@class, 'mat-warn') and contains(@class, 'mat-raised-button')]")
+        ));
 
         WebElement botaoExcluirPedido = wait.until(
                 ExpectedConditions.elementToBeClickable(
@@ -181,9 +175,9 @@ public class ExcluirPedidoE2ETest {
 
         wait.until(ExpectedConditions.urlContains("/cliente/lista-pedidos"));
 
-        wait.until(driver -> {
+        wait.until(webDriver -> {
             try {
-                return driver.findElements(
+                return webDriver.findElements(
                         By.xpath("//tr[contains(@class, 'mat-row') and .//td[contains(@class, 'mat-column-id') and normalize-space()='" + idPedido + "']]")
                 ).isEmpty();
             } catch (StaleElementReferenceException e) {

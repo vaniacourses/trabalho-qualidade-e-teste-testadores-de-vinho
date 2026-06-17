@@ -6,6 +6,8 @@ import com.example.waiterapp.enums.Estado;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 
 import java.time.LocalDateTime;
 
@@ -25,43 +27,19 @@ class ItemPedidoTest {
 
     // ======================= getSubTotal() =======================
 
-    @Test
-    @DisplayName("getSubTotal deve retornar quantidade multiplicada pelo preço do item")
-    void getSubTotal_quantidadePositiva_deveCalcularCorretamente() {
-        // Arrange
-        ItemPedido itemPedido = new ItemPedido(pedido, item, 3); // 3 * 40 = 120
+    @ParameterizedTest(name = "getSubTotal com quantidade {0} deve retornar {1}")
+    @CsvSource({
+            "3, 120.0",
+            "1, 40.0",
+            "0, 0.0"
+    })
+    @DisplayName("getSubTotal deve calcular quantidade multiplicada pelo preço do item")
+    void getSubTotal_comQuantidadeVariada_deveCalcularCorretamente(int quantidade, double esperado) {
+        ItemPedido itemPedido = new ItemPedido(pedido, item, quantidade);
 
-        // Act
         Double subtotal = itemPedido.getSubTotal();
 
-        // Assert
-        assertEquals(120.0, subtotal, 0.001);
-    }
-
-    @Test
-    @DisplayName("getSubTotal com quantidade 1 deve retornar exatamente o preço do item")
-    void getSubTotal_quantidadeUm_deveRetornarPrecoDoItem() {
-        // Arrange
-        ItemPedido itemPedido = new ItemPedido(pedido, item, 1);
-
-        // Act
-        Double subtotal = itemPedido.getSubTotal();
-
-        // Assert
-        assertEquals(40.0, subtotal, 0.001);
-    }
-
-    @Test
-    @DisplayName("getSubTotal com quantidade zero deve retornar zero (caso limite)")
-    void getSubTotal_quantidadeZero_deveRetornarZero() {
-        // Arrange
-        ItemPedido itemPedido = new ItemPedido(pedido, item, 0);
-
-        // Act
-        Double subtotal = itemPedido.getSubTotal();
-
-        // Assert
-        assertEquals(0.0, subtotal, 0.001);
+        assertEquals(esperado, subtotal, 0.001);
     }
 
     @Test

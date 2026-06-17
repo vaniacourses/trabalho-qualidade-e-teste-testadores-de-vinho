@@ -28,9 +28,6 @@ public class ClienteLoginE2ETest {
 
         ChromeOptions options = new ChromeOptions();
 
-        // Deixe comentado para ver o Chrome abrindo
-        // options.addArguments("--headless=new");
-
         options.addArguments("--no-sandbox");
         options.addArguments("--disable-dev-shm-usage");
         options.addArguments("--remote-allow-origins=*");
