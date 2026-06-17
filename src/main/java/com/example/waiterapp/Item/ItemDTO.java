@@ -1,7 +1,7 @@
 package com.example.waiterapp.Item;
 
-import com.example.waiterapp.Cardapio.Cardapio;
 import com.example.waiterapp.ItemPedido.ItemPedido;
+import com.example.waiterapp.cardapio.Cardapio;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;

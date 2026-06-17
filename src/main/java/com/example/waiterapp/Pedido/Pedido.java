@@ -1,11 +1,11 @@
-package com.example.waiterapp.Pedido;
+package com.example.waiterapp.pedido;
 
-import com.example.waiterapp.Cliente.Cliente;
-import com.example.waiterapp.Garcom.Garcom;
-import com.example.waiterapp.Item.Item;
+import com.example.waiterapp.item.Item;
+import com.example.waiterapp.ItemPedido.Ite
 import com.example.waiterapp.ItemPedido.ItemPedido;
-import com.example.waiterapp.Pagamento.Pagamento;
+import com.example.waiterapp.pagamento.Pagamento;
 import com.example.waiterapp.enums.Estado;
+import com.example.waiterapp.item.Item;amento;;
 
 import javax.persistence.*;
 import java.io.Serializable;

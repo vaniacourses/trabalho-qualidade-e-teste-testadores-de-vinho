@@ -1,8 +1,10 @@
-package com.example.waiterapp.Pedido;
+package com.example.waiterapp.pedido;
 
-import com.example.waiterapp.Item.Item;
 import com.example.waiterapp.ItemPedido.ItemPedido;
 import com.example.waiterapp.enums.Estado;
+import com.example.waiterapp.item.Item;
+import com.example.waiterapp.pedido.Pedido;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

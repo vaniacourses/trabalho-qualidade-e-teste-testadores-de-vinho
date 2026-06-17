@@ -1,8 +1,9 @@
-package com.example.waiterapp.Item;
+package com.example.waiterapp.item;
 
-import com.example.waiterapp.Item.Bebida.BebidaRepository;
-import com.example.waiterapp.Item.Prato.PratoRepository;
 import com.example.waiterapp.exceptions.ObjectNotFoundException;
+import com.example.waiterapp.item.bebida.BebidaRepository;
+import com.example.waiterapp.item.prato.PratoRepository;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;

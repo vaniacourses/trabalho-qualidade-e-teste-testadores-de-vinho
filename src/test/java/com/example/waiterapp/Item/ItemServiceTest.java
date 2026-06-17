@@ -1,7 +1,7 @@
 package com.example.waiterapp.Item;
 
-import com.example.waiterapp.Cardapio.Cardapio;
 import com.example.waiterapp.ItemPedido.ItemPedido;
+import com.example.waiterapp.cardapio.Cardapio;
 import com.example.waiterapp.exceptions.ObjectNotFoundException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;

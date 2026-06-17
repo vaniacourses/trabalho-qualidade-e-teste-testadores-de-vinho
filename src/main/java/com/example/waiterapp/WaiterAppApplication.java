@@ -1,7 +1,5 @@
 package com.example.waiterapp;
 
-import com.example.waiterapp.Cardapio.Cardapio;
-import com.example.waiterapp.Cardapio.CardapioRepository;
 import com.example.waiterapp.Cliente.Cliente;
 import com.example.waiterapp.Cliente.ClienteRepository;
 import com.example.waiterapp.Garcom.Garcom;
@@ -19,6 +17,8 @@ import com.example.waiterapp.Pagamento.Pagamento;
 import com.example.waiterapp.Pagamento.PagamentoRepository;
 import com.example.waiterapp.Pedido.Pedido;
 import com.example.waiterapp.Pedido.PedidoRepository;
+import com.example.waiterapp.cardapio.Cardapio;
+import com.example.waiterapp.cardapio.CardapioRepository;
 import com.example.waiterapp.enums.Estado;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;

@@ -1,12 +1,14 @@
-package com.example.waiterapp.Pedido;
+package com.example.waiterapp.pedido;
 
-import com.example.waiterapp.Cliente.ClienteService;
-import com.example.waiterapp.Item.ItemService;
+import com.example.waiterapp.item.ItemService;
 import com.example.waiterapp.ItemPedido.ItemPedido;
 import com.example.waiterapp.ItemPedido.ItemPedidoRepository;
-import com.example.waiterapp.Pagamento.PagamentoRepository;
+import com.example.waiterapp.pagamento.PagamentoRepository;
 import com.example.waiterapp.enums.Estado;
 import com.example.waiterapp.exceptions.ObjectNotFoundException;
+import com.example.waiterapp.item.ItemService;
+
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
