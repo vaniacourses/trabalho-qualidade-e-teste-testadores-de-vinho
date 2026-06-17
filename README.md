@@ -12,9 +12,9 @@ Este repositorio contem a documentacao e os testes do **WaiterApp**. O **segundo
 
 ## Descricao do Sistema
 
-O **WaiterApp** e uma API REST de gerenciamento de pedidos para restaurantes. O sistema permite que garcons registrem e acompanhem pedidos de clientes, consultem o cardapio, gerenciem itens e processem pagamentos.
+O **WaiterApp** e uma API REST de gerenciamento de pedidos para restaurantes, com frontend Angular embutido. O sistema permite que garcons registrem e acompanhem pedidos de clientes, consultem o cardapio, gerenciem itens e processem pagamentos.
 
-### Funcionalidades principais
+### Funcionalidades principaisp
 
 | Modulo | Descricao |
 |---|---|
@@ -28,11 +28,13 @@ O **WaiterApp** e uma API REST de gerenciamento de pedidos para restaurantes. O 
 
 ### Tecnologias do sistema
 
-- **Linguagem:** Java 11+
+- **Linguagem:** Java 9+
 - **Framework:** Spring Boot 2.7.1
 - **Persistencia:** Spring Data JPA / Hibernate + PostgreSQL
-- **Documentacao da API:** Swagger (Springfox 2.9.2)
+- **Frontend:** Angular (bundled em `src/main/resources/static/`)
+- **Documentacao da API:** springdoc-openapi 1.7.0
 - **Build:** Maven
+- **Containerizacao:** Docker + Docker Compose
 
 ### Modulos testados neste trabalho
 
@@ -43,6 +45,7 @@ Os modulos selecionados para teste sao os que contem logica de negocio nao trivi
 - `ItemPedido` — calculo de subtotal (quantidade x preco)
 - `Prato` — soma de calorias dos ingredientes via stream
 - `ItemService`, `ClienteService`, `GarcomService`, `CardapioService` — CRUD com tratamento de excecoes
+- `Pagamento`, `PagamentoComCartao`, `PagamentoComDinheiro` — hierarquia de pagamento com polimorfismo
 
 ---
 
@@ -66,9 +69,16 @@ O plano contem: escopo, abordagem, tecnicas, ferramentas, casos de teste por cla
 
 O documento define as metas de qualidade dos atributos da norma ISO/IEC 25010 para o WaiterApp, com escala de prioridade, medidas esperadas e justificativas por subcaracteristica (funcionalidade, desempenho, usabilidade da interface web, seguranca, entre outras).
 
+### 3. Casos de Teste Manuais
+
+| Artefato | Link |
+|---|---|
+| Caso de Teste — Adicionar Item ao Carrinho | [`docs/caso_de_teste_add_item_carrinho.pdf`](docs/caso_de_teste_add_item_carrinho.pdf) |
+| Caso de Teste — Remover Item do Carrinho | [`docs/caso_de_teste_rem_item_carrinho.pdf`](docs/caso_de_teste_rem_item_carrinho.pdf) |
+
 ---
 
-### 3. Codigo-Fonte Original
+### 4. Codigo-Fonte Original
 
 | Modulo | Link |
 |---|---|
@@ -86,7 +96,7 @@ O documento define as metas de qualidade dos atributos da norma ISO/IEC 25010 pa
 
 ---
 
-### 4. Testes Unitarios Automatizados
+### 5. Testes Unitarios Automatizados
 
 **Ferramentas utilizadas nos testes:**
 
@@ -105,24 +115,25 @@ O documento define as metas de qualidade dos atributos da norma ISO/IEC 25010 pa
 mvn test
 ```
 
-**Arquivos de teste:**
+**Arquivos de teste unitario:**
 
 | Arquivo | Classe Testada | N. de Testes | Link Direto |
 |---|---|---|---|
-| `PedidoTest.java` | `Pedido` | 15 | [`src/test/.../Pedido/PedidoTest.java`](src/test/java/com/example/waiterapp/Pedido/PedidoTest.java) |
-| `PedidoServiceTest.java` | `PedidoService` | 17 | [`src/test/.../Pedido/PedidoServiceTest.java`](src/test/java/com/example/waiterapp/Pedido/PedidoServiceTest.java) |
+| `PedidoTest.java` | `Pedido` | 25 | [`src/test/.../Pedido/PedidoTest.java`](src/test/java/com/example/waiterapp/Pedido/PedidoTest.java) |
+| `PedidoServiceTest.java` | `PedidoService` | 20 | [`src/test/.../Pedido/PedidoServiceTest.java`](src/test/java/com/example/waiterapp/Pedido/PedidoServiceTest.java) |
 | `ItemPedidoTest.java` | `ItemPedido` | 15 | [`src/test/.../ItemPedido/ItemPedidoTest.java`](src/test/java/com/example/waiterapp/ItemPedido/ItemPedidoTest.java) |
-| `PratoTest.java` | `Prato` | 13 | [`src/test/.../Item/Prato/PratoTest.java`](src/test/java/com/example/waiterapp/Item/Prato/PratoTest.java) |
-| `ItemServiceTest.java` | `ItemService` | 15 | [`src/test/.../Item/ItemServiceTest.java`](src/test/java/com/example/waiterapp/Item/ItemServiceTest.java) |
-| `ClienteServiceTest.java` | `ClienteService` | 19 | [`src/test/.../Cliente/ClienteServiceTest.java`](src/test/java/com/example/waiterapp/Cliente/ClienteServiceTest.java) |
-| `GarcomServiceTest.java` | `GarcomService` | 16 | [`src/test/.../Garcom/GarcomServiceTest.java`](src/test/java/com/example/waiterapp/Garcom/GarcomServiceTest.java) |
-| `CardapioServiceTest.java` | `CardapioService` | 16 | [`src/test/.../Cardapio/CardapioServiceTest.java`](src/test/java/com/example/waiterapp/Cardapio/CardapioServiceTest.java) |
+| `PratoTest.java` | `Prato` | 14 | [`src/test/.../Item/Prato/PratoTest.java`](src/test/java/com/example/waiterapp/Item/Prato/PratoTest.java) |
+| `ItemServiceTest.java` | `ItemService` | 20 | [`src/test/.../Item/ItemServiceTest.java`](src/test/java/com/example/waiterapp/Item/ItemServiceTest.java) |
+| `ClienteServiceTest.java` | `ClienteService` | 23 | [`src/test/.../Cliente/ClienteServiceTest.java`](src/test/java/com/example/waiterapp/Cliente/ClienteServiceTest.java) |
+| `GarcomServiceTest.java` | `GarcomService` | 17 | [`src/test/.../Garcom/GarcomServiceTest.java`](src/test/java/com/example/waiterapp/Garcom/GarcomServiceTest.java) |
+| `CardapioServiceTest.java` | `CardapioService` | 18 | [`src/test/.../Cardapio/CardapioServiceTest.java`](src/test/java/com/example/waiterapp/Cardapio/CardapioServiceTest.java) |
+| `PagamentoTest.java` | `Pagamento`, `PagamentoComCartao`, `PagamentoComDinheiro` | 24 | [`src/test/.../Pagamento/PagamentoTest.java`](src/test/java/com/example/waiterapp/Pagamento/PagamentoTest.java) |
 
-**Total: ~126 testes unitarios**
+**Total: 177 testes unitarios** (incluindo 1 teste de contexto em `WaiterAppApplicationTests.java`)
 
-### 3.1 Cobertura de Testes (JaCoCo)
+### 5.1 Cobertura de Testes (JaCoCo)
 
-Resultados de cobertura do JaCoCo apos a Entrega 2 (testes unitarios + integracao; E2E excluidos por requererem Chrome):
+Resultados de cobertura do JaCoCo (testes unitarios + integracao; E2E excluidos por requererem Chrome):
 
 | Grupo | Classes | Metodos | Linhas | Branches (decisoes) |
 |---|---:|---:|---:|---:|
@@ -148,11 +159,11 @@ Resultados de cobertura do JaCoCo apos a Entrega 2 (testes unitarios + integraca
 **Como visualizar o relatorio (HTML):**
 
 ```bash
-.\mvnw.cmd clean test jacoco:report -Dmaven.test.failure.ignore=true -Dexcludes=**/e2e/**
+./mvnw clean test jacoco:report -Dmaven.test.failure.ignore=true -Dexcludes=**/e2e/**
 # Abrir: target/site/jacoco/index.html
 ```
 
-### 3.2 Sugestao: exigir cobertura minima (80%) via CI/CD
+### 5.2 Sugestao: exigir cobertura minima (80%) via CI/CD
 
 Para evitar regressao na qualidade dos testes (e incentivar a cobertura de branches/linhas ao longo do tempo), uma boa pratica e configurar o pipeline de CI/CD para **falhar o build** quando a cobertura ficar abaixo de um limite minimo.
 
@@ -188,91 +199,28 @@ Para evitar regressao na qualidade dos testes (e incentivar a cobertura de branc
 
 ---
 
-### 5. Configuracao de Teste
+### 6. Configuracao de Teste
 
 | Arquivo | Link | Descricao |
 |---|---|---|
 | `application.properties` (test) | [`src/test/resources/application.properties`](src/test/resources/application.properties) | Configuracao H2 in-memory para testes Spring |
-| `pom.xml` | [`pom.xml`](pom.xml) | Dependencias do projeto (JUnit 5, Mockito, H2) |
-
----
-
-## Estrutura do Repositorio
-
-```
-waiterapp/
-├── docs/
-│   ├── plano-de-teste.md              # Plano de Teste (Entrega 1)
-│   └── medidas-iso-25010.md         # Medidas de Qualidade ISO/IEC 25010
-├── src/
-│   ├── main/java/com/example/waiterapp/
-│   │   ├── Cardapio/                  # Cardapio (entidade, servico, repositorio, DTO)
-│   │   ├── Cliente/                   # Cliente
-│   │   ├── Garcom/                    # Garcom
-│   │   ├── Ingrediente/               # Ingrediente
-│   │   ├── Item/                      # Item base + Prato + Bebida
-│   │   ├── ItemPedido/                # ItemPedido (chave composta)
-│   │   ├── Pagamento/                 # Pagamento (cartao e dinheiro)
-│   │   ├── Pedido/                    # Pedido
-│   │   ├── config/                    # Configuracao Swagger
-│   │   ├── enums/                     # Estado do pedido
-│   │   └── exceptions/                # ObjectNotFoundException
-│   ├── test/java/com/example/waiterapp/
-│   │   ├── Cardapio/CardapioServiceTest.java
-│   │   ├── Cliente/ClienteServiceTest.java
-│   │   ├── Garcom/GarcomServiceTest.java
-│   │   ├── Item/ItemServiceTest.java
-│   │   ├── Item/Prato/PratoTest.java
-│   │   ├── ItemPedido/ItemPedidoTest.java
-│   │   ├── Pedido/PedidoTest.java
-│   │   └── Pedido/PedidoServiceTest.java
-│   └── test/resources/application.properties
-└── pom.xml
-```
-
----
-
-## Como Executar
-
-```bash
-# Clonar o repositorio
-git clone <url-do-repositorio>
-cd waiterapp
-
-# Executar apenas os testes unitarios (sem banco de dados necessario)
-mvn test
-
-# Executar a aplicacao completa com Docker (PostgreSQL incluido)
-docker-compose up
-```
+| `pom.xml` | [`pom.xml`](pom.xml) | Dependencias do projeto (JUnit 5, Mockito, H2, Selenium, JaCoCo, PITest) |
 
 ---
 
 ## Artefatos da Entrega 2 (17/06/2026)
 
-### 5. Testes Unitarios Melhorados
+### 7. Testes de Integracao
 
-Novos testes adicionados cobrindo a hierarquia de Pagamento e branches antes descobertos:
-
-| Arquivo | Classe Testada | Testes | Link |
-|---|---|---|---|
-| `PagamentoTest.java` | `Pagamento`, `PagamentoComCartao`, `PagamentoComDinheiro` | 22 | [`src/test/.../Pagamento/PagamentoTest.java`](src/test/java/com/example/waiterapp/Pagamento/PagamentoTest.java) |
-| `PedidoTest.java` | `Pedido` | 16 | [`src/test/.../Pedido/PedidoTest.java`](src/test/java/com/example/waiterapp/Pedido/PedidoTest.java) |
-| `PedidoServiceTest.java` | `PedidoService` | 17 | [`src/test/.../Pedido/PedidoServiceTest.java`](src/test/java/com/example/waiterapp/Pedido/PedidoServiceTest.java) |
-| `ItemServiceTest.java` | `ItemService` | 17 | [`src/test/.../Item/ItemServiceTest.java`](src/test/java/com/example/waiterapp/Item/ItemServiceTest.java) |
-
-**Total acumulado: ~183 testes unitarios**
-
----
-
-### 6. Testes de Integracao
-
-Testes com Spring Boot + H2 em memoria, testando a camada Controller → Service → Repository real:
+Testes com Spring Boot + H2 em memoria, testando a camada Controller → Service → Repository real (MockMvc) e Repository → JPA (`@DataJpaTest`):
 
 | Arquivo | Modulo Testado | Testes | Link |
 |---|---|---|---|
-| `ClienteIntegrationTest.java` | Cliente (CRUD + busca por CPF) | 7 | [`src/test/.../integration/ClienteIntegrationTest.java`](src/test/java/com/example/waiterapp/integration/ClienteIntegrationTest.java) |
-| `CardapioIntegrationTest.java` | Cardapio (CRUD + 404) | 7 | [`src/test/.../integration/CardapioIntegrationTest.java`](src/test/java/com/example/waiterapp/integration/CardapioIntegrationTest.java) |
+| `ClienteIntegrationTest.java` | Cliente (CRUD + busca por CPF) | 8 | [`src/test/.../integration/ClienteIntegrationTest.java`](src/test/java/com/example/waiterapp/integration/ClienteIntegrationTest.java) |
+| `CardapioIntegrationTest.java` | Cardapio (CRUD + 404) | 8 | [`src/test/.../integration/CardapioIntegrationTest.java`](src/test/java/com/example/waiterapp/integration/CardapioIntegrationTest.java) |
+| `PedidoRepositoryIntegrationTest.java` | PedidoRepository (persistencia + query customizada) | 3 | [`src/test/.../Pedido/PedidoRepositoryIntegrationTest.java`](src/test/java/com/example/waiterapp/Pedido/PedidoRepositoryIntegrationTest.java) |
+
+**Total de testes de integracao: 19**
 
 **Como executar (excluindo E2E):**
 
@@ -282,16 +230,23 @@ mvn test -Dgroups='!e2e'
 
 ---
 
-### 7. Testes de Sistema / E2E (Selenium)
+### 8. Testes de Sistema / E2E (Selenium)
 
 Testes de ponta a ponta com Selenium 4 + WebDriverManager. Requerem a aplicacao rodando em `localhost:8080`.
 
-| Arquivo | Cenarios | Link |
-|---|---|---|
-| `PedidoE2ETest.java` | Carregamento da app, API de pedidos, tempo de resposta | [`src/test/.../e2e/PedidoE2ETest.java`](src/test/java/com/example/waiterapp/e2e/PedidoE2ETest.java) |
-| `ClienteE2ETest.java` | API de clientes, elementos Angular, performance | [`src/test/.../e2e/ClienteE2ETest.java`](src/test/java/com/example/waiterapp/e2e/ClienteE2ETest.java) |
-| `CardapioE2ETest.java` | API de cardapios, 404, itens | [`src/test/.../e2e/CardapioE2ETest.java`](src/test/java/com/example/waiterapp/e2e/CardapioE2ETest.java) |
-| `GarcomE2ETest.java` | API de garcons, Swagger UI, performance | [`src/test/.../e2e/GarcomE2ETest.java`](src/test/java/com/example/waiterapp/e2e/GarcomE2ETest.java) |
+| Arquivo | Cenarios | Testes | Link |
+|---|---|---|---|
+| `AplicacaoE2ETest.java` | Carregamento inicial da aplicacao | 1 | [`src/test/.../e2e/AplicacaoE2ETest.java`](src/test/java/com/example/waiterapp/e2e/AplicacaoE2ETest.java) |
+| `ClienteLoginE2ETest.java` | Login do cliente (nome + CPF) | 1 | [`src/test/.../e2e/ClienteLoginE2ETest.java`](src/test/java/com/example/waiterapp/e2e/ClienteLoginE2ETest.java) |
+| `ClientePedidoE2ETest.java` | Adicionar prato ao carrinho | 1 | [`src/test/.../e2e/ClientePedidoE2ETest.java`](src/test/java/com/example/waiterapp/e2e/ClientePedidoE2ETest.java) |
+| `FinalizarPedidoE2ETest.java` | Finalizar pedido com item no carrinho | 1 | [`src/test/.../e2e/FinalizarPedidoE2ETest.java`](src/test/java/com/example/waiterapp/e2e/FinalizarPedidoE2ETest.java) |
+| `ExcluirPedidoE2ETest.java` | Criar e excluir pedido | 1 | [`src/test/.../e2e/ExcluirPedidoE2ETest.java`](src/test/java/com/example/waiterapp/e2e/ExcluirPedidoE2ETest.java) |
+| `PedidoE2ETest.java` | API de pedidos, tempo de resposta | 5 | [`src/test/.../e2e/PedidoE2ETest.java`](src/test/java/com/example/waiterapp/e2e/PedidoE2ETest.java) |
+| `ClienteE2ETest.java` | API de clientes, elementos Angular, performance | 5 | [`src/test/.../e2e/ClienteE2ETest.java`](src/test/java/com/example/waiterapp/e2e/ClienteE2ETest.java) |
+| `CardapioE2ETest.java` | API de cardapios, 404, itens | 5 | [`src/test/.../e2e/CardapioE2ETest.java`](src/test/java/com/example/waiterapp/e2e/CardapioE2ETest.java) |
+| `GarcomE2ETest.java` | API de garcons, Swagger UI, performance | 5 | [`src/test/.../e2e/GarcomE2ETest.java`](src/test/java/com/example/waiterapp/e2e/GarcomE2ETest.java) |
+
+**Total de testes E2E: 25** (classe base `BaseSeleniumTest.java` compartilhada)
 
 **Como executar os testes E2E:**
 
@@ -305,9 +260,9 @@ mvn test -Dgroups=e2e
 
 ---
 
-### 8. Cobertura Estrutural (JaCoCo — Tecnica Todas-Arestas)
+### 9. Cobertura Estrutural (JaCoCo — Tecnica Todas-Arestas)
 
-Resultados medidos em 2026-06-14 apos todas as melhorias da Entrega 2 (208 testes; E2E contabilizados separadamente):
+Resultados medidos em 2026-06-14 apos todas as melhorias da Entrega 2 (E2E contabilizados separadamente):
 
 **Totais gerais:**
 
@@ -331,15 +286,17 @@ Resultados medidos em 2026-06-14 apos todas as melhorias da Entrega 2 (208 teste
 **Como gerar o relatorio:**
 
 ```bash
-.\mvnw.cmd clean test jacoco:report -Dmaven.test.failure.ignore=true
+./mvnw clean test jacoco:report -Dmaven.test.failure.ignore=true
 # Abrir: target/site/jacoco/index.html
 ```
 
 ---
 
-### 9. Teste de Mutacao (PITest)
+### 10. Teste de Mutacao (PITest)
 
 Ferramenta: **PITest 1.15.3** com plugin JUnit 5.
+
+Classes-alvo: `Pedido`, `PedidoService`, `ItemService`, `Pagamento`, `PagamentoComCartao`, `PagamentoComDinheiro`.
 
 | Metrica | Valor |
 |---|---|
@@ -356,9 +313,11 @@ mvn pitest:mutationCoverage
 
 ---
 
-### 10. Inspecao de Codigo (SonarCloud)
+### 11. Inspecao de Codigo (SonarCloud)
 
-> Configurar em: [sonarcloud.io](https://sonarcloud.io) — conectar ao repositorio GitHub do grupo.
+| Artefato | Link |
+|---|---|
+| Apresentacao SonarQube | [`docs/WaiterApp_SonarQube.pptx`](docs/WaiterApp_SonarQube.pptx) |
 
 **Como executar a analise localmente:**
 
@@ -370,26 +329,54 @@ mvn sonar:sonar \
   -Dsonar.login=SEU_TOKEN
 ```
 
-> Prints da analise e das correcoes por membro devem ser adicionados aqui apos execucao.
-
 ---
 
-### 11. ISO 25010 — Atributos de Qualidade
+### 12. ISO 25010 — Atributos de Qualidade
 
-> Documento com medidas e justificativas para cada atributo da ISO 25010:
->
+| Artefato | Link |
+|---|---|
 | Medidas de Qualidade — ISO/IEC 25010 | [`docs/medidas-iso-25010.md`](docs/medidas-iso-25010.md) |
 
 ---
 
-## Estrutura do Repositorio (Entrega 2)
+## Resumo de Testes
+
+| Tipo | Quantidade |
+|---|---:|
+| Testes unitarios | 177 |
+| Testes de integracao | 19 |
+| Testes E2E (Selenium) | 25 |
+| **Total** | **221** |
+
+---
+
+## Estrutura do Repositorio
 
 ```
 waiterapp/
 ├── docs/
-│   └── plano-de-teste.md
+│   ├── plano-de-teste.md                       # Plano de Teste
+│   ├── medidas-iso-25010.md                     # Medidas de Qualidade ISO/IEC 25010
+│   ├── caso_de_teste_add_item_carrinho.pdf      # Caso de teste manual — adicionar item
+│   ├── caso_de_teste_rem_item_carrinho.pdf      # Caso de teste manual — remover item
+│   └── WaiterApp_SonarQube.pptx                 # Apresentacao SonarQube
 ├── src/
-│   ├── main/java/com/example/waiterapp/      # Codigo de producao
+│   ├── main/
+│   │   ├── java/com/example/waiterapp/
+│   │   │   ├── Cardapio/                        # Cardapio (entidade, servico, repositorio, DTO, controller)
+│   │   │   ├── Cliente/                         # Cliente
+│   │   │   ├── Garcom/                          # Garcom
+│   │   │   ├── Ingrediente/                     # Ingrediente
+│   │   │   ├── Item/                            # Item base + Prato + Bebida
+│   │   │   ├── ItemPedido/                      # ItemPedido (chave composta)
+│   │   │   ├── Pagamento/                       # Pagamento (cartao e dinheiro)
+│   │   │   ├── Pedido/                          # Pedido
+│   │   │   ├── config/                          # Configuracao Swagger
+│   │   │   ├── enums/                           # Estado do pedido
+│   │   │   └── exceptions/                      # ObjectNotFoundException
+│   │   └── resources/
+│   │       ├── application.properties           # Config PostgreSQL
+│   │       └── static/                          # Frontend Angular (bundled)
 │   └── test/java/com/example/waiterapp/
 │       ├── Cardapio/CardapioServiceTest.java
 │       ├── Cliente/ClienteServiceTest.java
@@ -397,19 +384,56 @@ waiterapp/
 │       ├── Item/ItemServiceTest.java
 │       ├── Item/Prato/PratoTest.java
 │       ├── ItemPedido/ItemPedidoTest.java
-│       ├── Pagamento/PagamentoTest.java       # NOVO
-│       ├── Pedido/PedidoTest.java
-│       ├── Pedido/PedidoServiceTest.java
-│       ├── integration/                       # NOVO — testes de integracao
+│       ├── Pagamento/PagamentoTest.java
+│       ├── Pedido/
+│       │   ├── PedidoTest.java
+│       │   ├── PedidoServiceTest.java
+│       │   └── PedidoRepositoryIntegrationTest.java
+│       ├── integration/                         # Testes de integracao (MockMvc + H2)
 │       │   ├── ClienteIntegrationTest.java
 │       │   └── CardapioIntegrationTest.java
-│       └── e2e/                               # NOVO — testes Selenium E2E
+│       └── e2e/                                 # Testes E2E (Selenium)
 │           ├── BaseSeleniumTest.java
+│           ├── AplicacaoE2ETest.java
+│           ├── ClienteLoginE2ETest.java
+│           ├── ClientePedidoE2ETest.java
+│           ├── FinalizarPedidoE2ETest.java
+│           ├── ExcluirPedidoE2ETest.java
 │           ├── PedidoE2ETest.java
 │           ├── ClienteE2ETest.java
 │           ├── CardapioE2ETest.java
 │           └── GarcomE2ETest.java
-└── pom.xml                                    # JaCoCo + PITest + Selenium configurados
+├── Dockerfile                                   # Build multi-stage (Java 11)
+├── docker-compose.yml                           # PostgreSQL + App
+├── pom.xml                                      # JaCoCo + PITest + Selenium configurados
+└── .github/ISSUE_TEMPLATE/                      # Templates de issue (bug, feature, custom)
+```
+
+---
+
+## Como Executar
+
+```bash
+# Clonar o repositorio
+git clone <url-do-repositorio>
+cd waiterapp
+
+# Executar apenas os testes unitarios e de integracao (sem banco de dados necessario)
+mvn test -Dgroups='!e2e'
+
+# Executar todos os testes (requer app rodando para E2E)
+mvn test
+
+# Executar a aplicacao completa com Docker (PostgreSQL incluido)
+docker-compose up
+
+# Gerar relatorio de cobertura JaCoCo
+./mvnw clean test jacoco:report
+# Abrir: target/site/jacoco/index.html
+
+# Executar teste de mutacao (PITest)
+mvn pitest:mutationCoverage
+# Relatorio em: target/pit-reports/index.html
 ```
 
 ---
@@ -420,15 +444,15 @@ waiterapp/
 |---|---|---|
 | 1.0 | 2026-04-26 | Entrega 1: testes unitarios e plano de teste |
 | 1.1 | 2026-06-12 | Medidas de qualidade ISO/IEC 25010 |
-| 2.0 | 2026-06-17 | Entrega 2: integracao, E2E, mutacao, cobertura estrutural |
+| 2.0 | 2026-06-17 | Entrega 2: integracao, E2E, mutacao, cobertura estrutural, inspecao SonarQube |
 
 ---
 
-# 👥 Partição de Responsabilidades
+## Particao de Responsabilidades
 
 | Integrante | Responsabilidade | Status |
 | :--- | :--- | :---: |
-| **Gabriel Pimenta** | Testes unitários, Documentação plano de testes, Reporte de issues, Documentação do projeto  | ✅ |
-| **Guilherme Coelho** | Teste Manuais WaiterApp, Testes E2E com Selenium, Casos de teste Testlink, documentação Plano de teste | ✅ |
-| **Kauan Christofaro** | Documentação Plano de teste, Indicação das medidas da ISO 25010, Revisão e Melhoria de testes de integração, Resolução de Issues do SonarQube | ✅ |
-| **Rafael Langsch** | Testes de integração, Cobertura estrutural com JaCoCo, Teste de mutação com PIT (Pedido/PedidoService), Inspeção de código SonarCloud | ✅ |
+| **Gabriel Pimenta** | Testes unitarios, Documentacao plano de testes, Reporte de issues, Documentacao do projeto | ✅ |
+| **Guilherme Coelho** | Testes manuais WaiterApp, Testes E2E com Selenium, Casos de teste Testlink, Documentacao plano de teste | ✅ |
+| **Kauan Christofaro** | Documentacao plano de teste, Indicacao das medidas da ISO 25010, Revisao e melhoria de testes de integracao, Resolucao de issues do SonarQube | ✅ |
+| **Rafael Langsch** | Testes de integracao, Cobertura estrutural com JaCoCo, Teste de mutacao com PIT (Pedido/PedidoService), Inspecao de codigo SonarCloud | ✅ |
