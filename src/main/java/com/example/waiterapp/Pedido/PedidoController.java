@@ -42,7 +42,8 @@ public class PedidoController {
     }
 
     @PostMapping(consumes = "application/json")
-    public ResponseEntity<Pedido> inserePedido(@Valid @RequestBody Pedido pedido){
+    public ResponseEntity<Pedido> inserePedido(@Valid @RequestBody PedidoDTO pedidoDTO){
+        Pedido pedido = pedidoService.transformarDTO(pedidoDTO);
         System.out.print("Pedido enviado pelo request - ");
         System.out.println(pedido);
         pedido = pedidoService.inserePedido(pedido);
@@ -57,7 +58,8 @@ public class PedidoController {
     }
 
     @PutMapping(value = "/{idPedido}", consumes = "application/json")
-    public ResponseEntity<Void> atualizaPedido(@Valid @RequestBody Pedido pedido, @PathVariable Long idPedido){
+    public ResponseEntity<Void> atualizaPedido(@Valid @RequestBody PedidoDTO pedidoDTO, @PathVariable Long idPedido){
+        Pedido pedido = pedidoService.transformarDTO(pedidoDTO);
         pedido.setId(idPedido);
         pedidoService.atualizaPedido(pedido);
 

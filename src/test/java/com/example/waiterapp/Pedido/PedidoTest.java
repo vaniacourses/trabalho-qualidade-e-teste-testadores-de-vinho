@@ -1,6 +1,10 @@
 package com.example.waiterapp.pedido;
 
+import com.example.waiterapp.Garcom.Garcom;
+import com.example.waiterapp.Item.Item;
 import com.example.waiterapp.ItemPedido.ItemPedido;
+import com.example.waiterapp.Pagamento.Pagamento;
+import com.example.waiterapp.Pagamento.PagamentoComCartao.PagamentoComCartao;
 import com.example.waiterapp.enums.Estado;
 import com.example.waiterapp.item.Item;
 import com.example.waiterapp.pedido.Pedido;
@@ -167,6 +171,40 @@ class PedidoTest {
 
         // Assert — o método atual cria um ItemPedido mas não o insere no Set
         assertEquals(tamanhoAntes, pedido.getItems().size());
+    }
+
+    // ======================= getters/setters de associações =======================
+
+    @Test
+    @DisplayName("getGarcom deve retornar o garçom associado ao pedido")
+    void getGarcom_garcomAssociado_deveRetornarGarcom() {
+        // Arrange
+        Garcom garcom = new Garcom(1L, "João", LocalDateTime.now(), "12345678901");
+
+        // Act
+        pedido.setGarcom(garcom);
+
+        // Assert
+        assertSame(garcom, pedido.getGarcom());
+    }
+
+    @Test
+    @DisplayName("getPagamento deve retornar o pagamento associado ao pedido")
+    void getPagamento_pagamentoAssociado_deveRetornarPagamento() {
+        // Arrange
+        Pagamento pagamento = new PagamentoComCartao(1L, Estado.CONCLUIDO, LocalDateTime.now());
+
+        // Act
+        pedido.setPagamento(pagamento);
+
+        // Assert
+        assertSame(pagamento, pedido.getPagamento());
+    }
+
+    @Test
+    @DisplayName("chamarGarcom não deve lançar exceção")
+    void chamarGarcom_naoDeveLancarExcecao() {
+        assertDoesNotThrow(() -> pedido.chamarGarcom());
     }
 
     // ======================= equals() e hashCode() =======================

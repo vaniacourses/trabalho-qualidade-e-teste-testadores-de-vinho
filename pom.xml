@@ -56,6 +56,13 @@
             <scope>test</scope>
         </dependency>
 
+        <!-- JUnit Platform Launcher (necessário para o PITest executar testes JUnit 5) -->
+        <dependency>
+            <groupId>org.junit.platform</groupId>
+            <artifactId>junit-platform-launcher</artifactId>
+            <scope>test</scope>
+        </dependency>
+
         <!-- Validações -->
         <dependency>
             <groupId>org.springframework.boot</groupId>

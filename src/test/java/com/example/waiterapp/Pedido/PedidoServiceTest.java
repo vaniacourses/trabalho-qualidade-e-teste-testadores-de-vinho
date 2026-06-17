@@ -12,6 +12,7 @@ import com.example.waiterapp.pedido.Pedido;
 import com.example.waiterapp.pedido.PedidoRepository;
 import com.example.waiterapp.pedido.PedidoService;
 
+import com.example.waiterapp.exceptions.ObjectNotFoundException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -281,10 +282,13 @@ class PedidoServiceTest {
         when(itemPedidoRepository.saveAll(any())).thenReturn(new ArrayList<>());
 
         // Act
-        pedidoService.inserePedido(novoPedido);
+        Pedido resultado = pedidoService.inserePedido(novoPedido);
 
         // Assert
         verify(itemService).retornaItemById(1L);
+        ItemPedido itemPedidoSalvo = resultado.getItems().iterator().next();
+        assertEquals(item.getPreco(), itemPedidoSalvo.getPreco());
+        assertSame(resultado, itemPedidoSalvo.getPedido());
     }
 
     @Test
@@ -309,6 +313,26 @@ class PedidoServiceTest {
         assertEquals(cliente, resultado.getCliente());
         assertEquals("João Silva", resultado.getCliente().getNome());
         verify(clienteService).retornaClienteById(1L);
+    }
+
+    @Test
+    @DisplayName("inserePedido deve persistir os ItemPedido via saveAll")
+    void inserePedido_comItens_deveInvocarSaveAllNoRepositorio() {
+        // Arrange
+        Set<ItemPedido> items = new HashSet<>();
+        items.add(itemPedidoComItem(1L, 1));
+        Pedido novoPedido = criarPedidoParaInserir(1L, items);
+
+        when(clienteService.retornaClienteById(1L)).thenReturn(cliente);
+        when(pedidoRepository.save(any(Pedido.class))).thenAnswer(inv -> inv.getArgument(0));
+        when(itemService.retornaItemById(1L)).thenReturn(item);
+        when(itemPedidoRepository.saveAll(any())).thenReturn(new ArrayList<>());
+
+        // Act
+        pedidoService.inserePedido(novoPedido);
+
+        // Assert
+        verify(itemPedidoRepository).saveAll(any());
     }
 
     @Test
@@ -373,6 +397,51 @@ class PedidoServiceTest {
                 "ItemPedido deve registrar o preço do item para persistência");
     }
 
+    @Test
+    @DisplayName("inserePedido com múltiplos itens deve calcular o preço total e buscar cada item")
+    void inserePedido_comMultiplosItens_deveCalcularTotalEBuscarCadaItem() {
+        // Arrange – pizza 35×2 + suco 10×3 = 100
+        Item suco = new Item(2L, "Suco", "Natural", LocalDateTime.now(), 10.0);
+        Set<ItemPedido> items = new HashSet<>();
+        items.add(itemPedidoComItem(1L, 2));
+        items.add(itemPedidoComItem(2L, 3));
+
+        Pedido novoPedido = criarPedidoParaInserir(1L, items);
+
+        when(clienteService.retornaClienteById(1L)).thenReturn(cliente);
+        when(pedidoRepository.save(any(Pedido.class))).thenAnswer(inv -> inv.getArgument(0));
+        when(itemService.retornaItemById(1L)).thenReturn(item);
+        when(itemService.retornaItemById(2L)).thenReturn(suco);
+        when(itemPedidoRepository.saveAll(any())).thenReturn(new ArrayList<>());
+
+        // Act
+        Pedido resultado = pedidoService.inserePedido(novoPedido);
+
+        // Assert
+        assertEquals(100.0, resultado.getPrecoTotal(), 0.001);
+        verify(itemService).retornaItemById(1L);
+        verify(itemService).retornaItemById(2L);
+        verify(itemPedidoRepository).saveAll(any());
+    }
+
+    @Test
+    @DisplayName("inserePedido deve propagar ObjectNotFoundException quando o item não existe")
+    void inserePedido_itemInexistente_deveLancarObjectNotFoundException() {
+        // Arrange
+        Set<ItemPedido> items = new HashSet<>();
+        items.add(itemPedidoComItem(99L, 1));
+        Pedido novoPedido = criarPedidoParaInserir(1L, items);
+
+        when(clienteService.retornaClienteById(1L)).thenReturn(cliente);
+        when(pedidoRepository.save(any(Pedido.class))).thenAnswer(inv -> inv.getArgument(0));
+        when(itemService.retornaItemById(99L))
+            .thenThrow(new ObjectNotFoundException("Objeto nao encontrado! ID: 99"));
+
+        // Act & Assert
+        assertThrows(ObjectNotFoundException.class, () -> pedidoService.inserePedido(novoPedido));
+        verify(itemPedidoRepository, never()).saveAll(any());
+    }
+
     // ======================= atualizaPedido() =======================
 
     @Test
@@ -418,5 +487,21 @@ class PedidoServiceTest {
             () -> pedidoService.apagaPedido(1L)
         );
         assertTrue(ex.getMessage().contains("Não é possível excluir esse pedido"));
+    }
+
+    private Pedido criarPedidoParaInserir(Long clienteId, Set<ItemPedido> items) {
+        Cliente clienteRef = new Cliente();
+        clienteRef.setId(clienteId);
+
+        Pedido novoPedido = new Pedido();
+        novoPedido.setCliente(clienteRef);
+        novoPedido.setItems(items);
+        return novoPedido;
+    }
+
+    private ItemPedido itemPedidoComItem(Long itemId, int quantidade) {
+        Item itemRef = new Item();
+        itemRef.setId(itemId);
+        return new ItemPedido(null, itemRef, quantidade);
     }
 }

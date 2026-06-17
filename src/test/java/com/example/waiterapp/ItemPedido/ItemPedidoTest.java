@@ -93,6 +93,21 @@ class ItemPedidoTest {
     }
 
     @Test
+    @DisplayName("getSubTotal ignora o preço armazenado em ItemPedido e usa o preço do item (comportamento documentado)")
+    void getSubTotal_comPrecoArmazenadoDiferente_deveUsarPrecoDoItem() {
+        // Arrange – item R$ 40, qtd 2; preço armazenado alterado para R$ 15 (ex.: após inserePedido)
+        ItemPedido itemPedido = new ItemPedido(pedido, item, 2);
+        itemPedido.setPreco(15.0);
+
+        // Act
+        Double subtotal = itemPedido.getSubTotal();
+
+        // Assert – getSubTotal usa id.getItem().getPreco(), não o campo preco do ItemPedido
+        assertEquals(80.0, subtotal, 0.001);
+        assertEquals(15.0, itemPedido.getPreco(), 0.001);
+    }
+
+    @Test
     @DisplayName("getSubTotal com preço de item igual a zero deve retornar zero")
     void getSubTotal_precoDoItemZero_deveRetornarZero() {
         // Arrange

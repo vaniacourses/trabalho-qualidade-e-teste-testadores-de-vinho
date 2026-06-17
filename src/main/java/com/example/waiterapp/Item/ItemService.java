@@ -16,8 +16,8 @@ import java.util.Optional;
 public class ItemService {
 
     public enum TipoItem{
-        Prato,
-        Bebida
+        PRATO,
+        BEBIDA
     }
     
     private ItemRepository itemRepository;

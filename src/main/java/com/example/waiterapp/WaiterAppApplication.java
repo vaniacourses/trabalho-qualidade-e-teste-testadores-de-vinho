@@ -20,13 +20,11 @@ import com.example.waiterapp.Pedido.PedidoRepository;
 import com.example.waiterapp.cardapio.Cardapio;
 import com.example.waiterapp.cardapio.CardapioRepository;
 import com.example.waiterapp.enums.Estado;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.transaction.Transactional;
 import java.time.LocalDateTime;
 import java.util.Arrays;
 
@@ -36,29 +34,34 @@ import java.util.Arrays;
 @RestController
 public class WaiterAppApplication implements CommandLineRunner {
 
-    @Autowired
-    private CardapioRepository cardapioRepository;
+    private final CardapioRepository cardapioRepository;
+    private final ItemRepository itemRepository;
+    private final IngredienteRepository ingredienteRepository;
+    private final ClienteRepository clienteRepository;
+    private final GarcomRepository garcomRepository;
+    private final PedidoRepository pedidoRepository;
+    private final ItemPedidoRepository itemPedidoRepository;
+    private final PagamentoRepository pagamentoRepository;
 
-    @Autowired
-    private ItemRepository itemRepository;
-
-    @Autowired
-    private IngredienteRepository ingredienteRepository;
-
-    @Autowired
-    private ClienteRepository clienteRepository;
-
-    @Autowired
-    private GarcomRepository garcomRepository;
-
-    @Autowired
-    private PedidoRepository pedidoRepository;
-
-    @Autowired
-    private ItemPedidoRepository itemPedidoRepository;
-
-    @Autowired
-    private PagamentoRepository pagamentoRepository;
+    public WaiterAppApplication(
+            CardapioRepository cardapioRepository,
+            ItemRepository itemRepository,
+            IngredienteRepository ingredienteRepository,
+            ClienteRepository clienteRepository,
+            GarcomRepository garcomRepository,
+            PedidoRepository pedidoRepository,
+            ItemPedidoRepository itemPedidoRepository,
+            PagamentoRepository pagamentoRepository
+    ) {
+        this.cardapioRepository = cardapioRepository;
+        this.itemRepository = itemRepository;
+        this.ingredienteRepository = ingredienteRepository;
+        this.clienteRepository = clienteRepository;
+        this.garcomRepository = garcomRepository;
+        this.pedidoRepository = pedidoRepository;
+        this.itemPedidoRepository = itemPedidoRepository;
+        this.pagamentoRepository = pagamentoRepository;
+    }
 
     public static void main(String[] args) {
         SpringApplication.run(WaiterAppApplication.class, args);

@@ -215,8 +215,8 @@ class PagamentoTest {
     @Test
     @DisplayName("Pagamentos de tipos diferentes com mesmo id não são iguais (classes distintas)")
     void pagamentos_tiposDiferentes_mesmoId_naoSaoIguais() {
-        PagamentoComCartao cartao = new PagamentoComCartao(1L, Estado.PENDENTE, agora);
-        PagamentoComDinheiro dinheiro = new PagamentoComDinheiro(1L, Estado.PENDENTE, agora);
+        Pagamento cartao = new PagamentoComCartao(1L, Estado.PENDENTE, agora);
+        Pagamento dinheiro = new PagamentoComDinheiro(1L, Estado.PENDENTE, agora);
         assertNotEquals(cartao, dinheiro);
     }
 }

@@ -204,6 +204,22 @@ class ClienteServiceTest {
         verify(clienteRepository).save(cliente);
     }
 
+    @Test
+    @DisplayName("atualizaCliente com id inexistente ainda persiste o cliente (bug documentado)")
+    void atualizaCliente_idInexistente_devePersistirMesmoAssim() {
+        // Arrange – retornaClienteById retorna null, mas o serviço não valida o retorno
+        Cliente clienteInexistente = new Cliente(99L, "Nome", "email@test.com", "11111111111", LocalDateTime.now());
+        when(clienteRepository.findById(99L)).thenReturn(Optional.empty());
+        when(clienteRepository.save(clienteInexistente)).thenReturn(clienteInexistente);
+
+        // Act
+        Cliente resultado = clienteService.atualizaCliente(clienteInexistente);
+
+        // Assert
+        assertNotNull(resultado);
+        verify(clienteRepository).save(clienteInexistente);
+    }
+
     // ======================= apagaCliente() =======================
 
     @Test
@@ -230,6 +246,18 @@ class ClienteServiceTest {
             () -> clienteService.apagaCliente(1L)
         );
         assertTrue(ex.getMessage().contains("Não é possível excluir esse cliente"));
+    }
+
+    @Test
+    @DisplayName("apagaCliente com id inexistente ainda tenta excluir sem verificar existência (bug documentado)")
+    void apagaCliente_idInexistente_deveExcluirSemVerificarExistencia() {
+        // Arrange – apagaCliente não chama retornaClienteById antes de deleteById
+        doNothing().when(clienteRepository).deleteById(99L);
+
+        // Act & Assert
+        assertDoesNotThrow(() -> clienteService.apagaCliente(99L));
+        verify(clienteRepository).deleteById(99L);
+        verify(clienteRepository, never()).findById(any());
     }
 
     // ======================= retornaPedidosCliente() =======================
@@ -301,6 +329,17 @@ class ClienteServiceTest {
 
         // Assert
         assertTrue(cliente.getPedidos().isEmpty());
+    }
+
+    @Test
+    @DisplayName("inserePedidosCliente deve lançar NullPointerException quando cliente não existe (bug documentado)")
+    void inserePedidosCliente_clienteInexistente_deveLancarNullPointerException() {
+        // Arrange – retornaClienteById retorna null quando não encontrado
+        when(clienteRepository.findById(99L)).thenReturn(Optional.empty());
+
+        // Act & Assert – NPE porque o serviço chama setPedidos em um objeto null
+        assertThrows(NullPointerException.class,
+            () -> clienteService.inserePedidosCliente(99L, new ArrayList<>()));
     }
 
     // ======================= transformarDTO() =======================
