@@ -248,6 +248,22 @@ class PedidoTest {
     }
 
     @Test
+    @DisplayName("equals deve retornar true quando ambos os ids são null")
+    void equals_ambosIdsNull_deveRetornarTrue() {
+        Pedido a = new Pedido();
+        Pedido b = new Pedido();
+        assertEquals(a, b);
+    }
+
+    @Test
+    @DisplayName("equals deve retornar false quando apenas um id é null")
+    void equals_apenasUmIdNull_deveRetornarFalse() {
+        Pedido comId = new Pedido(1L, LocalDateTime.now(), Estado.EM_PREPARACAO, 0.0, null, null, null);
+        Pedido semId = new Pedido();
+        assertNotEquals(comId, semId);
+    }
+
+    @Test
     @DisplayName("hashCode deve ser igual para pedidos com mesmo id")
     void hashCode_mesmosIds_deveGerarMesmoHash() {
         // Arrange

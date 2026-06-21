@@ -55,6 +55,24 @@ class CardapioTest {
     }
 
     @Test
+    @DisplayName("equals deve retornar true para o mesmo objeto")
+    void equals_mesmoObjeto_deveRetornarTrue() {
+        assertEquals(cardapio, cardapio);
+    }
+
+    @Test
+    @DisplayName("equals deve retornar false quando comparado com null")
+    void equals_comparadoComNull_deveRetornarFalse() {
+        assertNotEquals(null, cardapio);
+    }
+
+    @Test
+    @DisplayName("equals deve retornar false quando comparado com classe diferente")
+    void equals_classeDiferente_deveRetornarFalse() {
+        assertNotEquals(cardapio, "cardápio");
+    }
+
+    @Test
     @DisplayName("equals deve retornar true para cardapios com mesmo id")
     void equals_mesmoId_deveRetornarTrue() {
         Cardapio outro = new Cardapio(1L, DATA, "Outro Título", "outra desc");
@@ -69,10 +87,33 @@ class CardapioTest {
     }
 
     @Test
+    @DisplayName("equals deve retornar true quando ambos os ids são null")
+    void equals_ambosIdsNull_deveRetornarTrue() {
+        Cardapio a = new Cardapio();
+        Cardapio b = new Cardapio();
+        assertEquals(a, b);
+    }
+
+    @Test
+    @DisplayName("equals deve retornar false quando apenas um id é null")
+    void equals_apenasUmIdNull_deveRetornarFalse() {
+        Cardapio comId = new Cardapio(1L, DATA, "Almoço", "Desc");
+        Cardapio semId = new Cardapio();
+        assertNotEquals(comId, semId);
+    }
+
+    @Test
     @DisplayName("hashCode deve ser igual para cardapios com mesmo id")
     void hashCode_mesmoId_deveSerIgual() {
         Cardapio outro = new Cardapio(1L, DATA, "Outro", "desc");
         assertEquals(cardapio.hashCode(), outro.hashCode());
+    }
+
+    @Test
+    @DisplayName("hashCode deve diferir para ids distintos")
+    void hashCode_idsDiferentes_deveDiferir() {
+        Cardapio outro = new Cardapio(2L, DATA, "Cardápio Principal", "Pratos do dia");
+        assertNotEquals(cardapio.hashCode(), outro.hashCode());
     }
 
     @Test

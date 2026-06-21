@@ -53,17 +53,51 @@ class GarcomTest {
     }
 
     @Test
+    @DisplayName("equals deve retornar true para o mesmo objeto")
+    void equals_mesmoObjeto_deveRetornarTrue() {
+        assertEquals(garcom, garcom);
+    }
+
+    @Test
+    @DisplayName("equals deve retornar false quando comparado com null")
+    void equals_comparadoComNull_deveRetornarFalse() {
+        assertNotEquals(null, garcom);
+    }
+
+    @Test
+    @DisplayName("equals deve retornar false quando comparado com classe diferente")
+    void equals_classeDiferente_deveRetornarFalse() {
+        assertNotEquals(garcom, "garçom");
+    }
+
+    @Test
     @DisplayName("equals deve retornar true para garcons com mesmo id")
-    void equals_mesmoid_deveRetornarTrue() {
+    void equals_mesmoId_deveRetornarTrue() {
         Garcom outro = new Garcom(1L, "Outro Nome", DATA, "00000000000");
         assertEquals(garcom, outro);
     }
 
     @Test
     @DisplayName("equals deve retornar false para garcons com ids diferentes")
-    void equals_idsdiferentes_deveRetornarFalse() {
+    void equals_idsDiferentes_deveRetornarFalse() {
         Garcom outro = new Garcom(2L, "João Silva", DATA, "11122233344");
         assertNotEquals(garcom, outro);
+    }
+
+    @Test
+    @DisplayName("equals deve retornar true quando ambos os ids são null")
+    void equals_ambosIdsNull_deveRetornarTrue() {
+        Garcom a = new Garcom();
+        Garcom b = new Garcom();
+        assertEquals(a, b);
+    }
+
+    @Test
+    @DisplayName("equals deve retornar false quando apenas um id é null")
+    void equals_apenasUmIdNull_deveRetornarFalse() {
+        Garcom comId = new Garcom(1L, "João", DATA, "12345678901");
+        Garcom semId = new Garcom();
+        assertNotEquals(comId, semId);
     }
 
     @Test
@@ -71,6 +105,13 @@ class GarcomTest {
     void hashCode_mesmoId_deveSerIgual() {
         Garcom outro = new Garcom(1L, "Outro", DATA, "00000000000");
         assertEquals(garcom.hashCode(), outro.hashCode());
+    }
+
+    @Test
+    @DisplayName("hashCode deve diferir para ids distintos")
+    void hashCode_idsDiferentes_deveDiferir() {
+        Garcom outro = new Garcom(2L, "João", DATA, "12345678901");
+        assertNotEquals(garcom.hashCode(), outro.hashCode());
     }
 
     @Test

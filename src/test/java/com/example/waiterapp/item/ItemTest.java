@@ -57,6 +57,24 @@ class ItemTest {
     }
 
     @Test
+    @DisplayName("equals deve retornar true para o mesmo objeto")
+    void equals_mesmoObjeto_deveRetornarTrue() {
+        assertEquals(item, item);
+    }
+
+    @Test
+    @DisplayName("equals deve retornar false quando comparado com null")
+    void equals_comparadoComNull_deveRetornarFalse() {
+        assertNotEquals(null, item);
+    }
+
+    @Test
+    @DisplayName("equals deve retornar false quando comparado com classe diferente")
+    void equals_classeDiferente_deveRetornarFalse() {
+        assertNotEquals(item, 42);
+    }
+
+    @Test
     @DisplayName("equals deve retornar true para itens com mesmo id")
     void equals_mesmoId_deveRetornarTrue() {
         Item outro = new Item(1L, "Outro Nome", "outra desc", DATA, 10.0);
@@ -71,10 +89,33 @@ class ItemTest {
     }
 
     @Test
+    @DisplayName("equals deve retornar true quando ambos os ids são null")
+    void equals_ambosIdsNull_deveRetornarTrue() {
+        Item a = new Item();
+        Item b = new Item();
+        assertEquals(a, b);
+    }
+
+    @Test
+    @DisplayName("equals deve retornar false quando apenas um id é null")
+    void equals_apenasUmIdNull_deveRetornarFalse() {
+        Item comId = new Item(1L, "Hambúrguer", "Desc", DATA, 25.0);
+        Item semId = new Item();
+        assertNotEquals(comId, semId);
+    }
+
+    @Test
     @DisplayName("hashCode deve ser igual para itens com mesmo id")
     void hashCode_mesmoId_deveSerIgual() {
         Item outro = new Item(1L, "Outro", "desc", DATA, 5.0);
         assertEquals(item.hashCode(), outro.hashCode());
+    }
+
+    @Test
+    @DisplayName("hashCode deve diferir para ids distintos")
+    void hashCode_idsDiferentes_deveDiferir() {
+        Item outro = new Item(2L, "Frango Grelhado", "Prato saudável", DATA, 29.90);
+        assertNotEquals(item.hashCode(), outro.hashCode());
     }
 
     @Test

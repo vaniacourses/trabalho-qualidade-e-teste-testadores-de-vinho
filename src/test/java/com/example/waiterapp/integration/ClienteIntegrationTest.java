@@ -160,6 +160,19 @@ class ClienteIntegrationTest {
     }
 
     @Test
+    @DisplayName("POST /api/clientes sem CPF deve criar cliente normalmente")
+    void insereCliente_semCpf_retorna201() throws Exception {
+        ClienteDTO dto = clienteDTO("Sem CPF", "semcpf@test.com", null);
+
+        mockMvc.perform(post("/api/clientes")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(dto)))
+                .andExpect(status().isCreated())
+                .andExpect(jsonPath("$.nome", is("Sem CPF")))
+                .andExpect(jsonPath("$.cpf").doesNotExist());
+    }
+
+    @Test
     @DisplayName("GET /api/clientes após inserção deve retornar lista com 1 cliente")
     void listaClientes_aposInsercao_retornaListaComUmElemento() throws Exception {
         ClienteDTO dto = clienteDTO("Teste Lista", "lista@test.com", "10101010101");
