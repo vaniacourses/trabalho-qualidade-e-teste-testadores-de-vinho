@@ -151,7 +151,7 @@ Este documento define as **medidas de qualidade** dos atributos da norma **ISO/I
 | Adequação funcional      | 4,7        | Crítica          |
 | Eficiência de desempenho | 3,3        | Importante       |
 | Compatibilidade          | 3,5        | Importante       |
-| Usabilidade              | 3,8        | Alta (interface) |
+| Usabilidade              | 3,8        | Alta             |
 | Confiabilidade           | 3,5        | Importante       |
 | Segurança                | 3,8        | Alta             |
 | Manutenibilidade         | 4,0        | Alta             |
