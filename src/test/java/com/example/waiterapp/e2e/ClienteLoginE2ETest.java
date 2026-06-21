@@ -17,7 +17,7 @@ import java.time.Duration;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-public class ClienteLoginE2ETest {
+class ClienteLoginE2ETest {
 
     private WebDriver driver;
     private WebDriverWait wait;
@@ -27,10 +27,6 @@ public class ClienteLoginE2ETest {
         WebDriverManager.chromedriver().setup();
 
         ChromeOptions options = new ChromeOptions();
-
-        // Deixe comentado para ver o Chrome abrindo
-        // options.addArguments("--headless=new");
-
         options.addArguments("--no-sandbox");
         options.addArguments("--disable-dev-shm-usage");
         options.addArguments("--remote-allow-origins=*");
@@ -79,7 +75,7 @@ public class ClienteLoginE2ETest {
         );
 
         assertTrue(
-                pagina.length() > 0,
+                !pagina.isEmpty(),
                 "A próxima tela deveria carregar conteúdo"
         );
     }

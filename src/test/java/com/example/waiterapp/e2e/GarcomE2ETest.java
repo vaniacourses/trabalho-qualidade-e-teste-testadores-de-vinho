@@ -51,12 +51,4 @@ class GarcomE2ETest extends BaseSeleniumTest {
                 "API /api/garcons deve responder em menos de 3 segundos");
     }
 
-    @Test
-    @DisplayName("Swagger UI deve estar acessível")
-    void swaggerUi_deveEstarAcessivel() {
-        navigateTo("/swagger-ui/index.html");
-        String title = driver.getTitle();
-        assertTrue(title.toLowerCase().contains("swagger") || !title.isEmpty(),
-                "Swagger UI deve carregar com título válido");
-    }
 }

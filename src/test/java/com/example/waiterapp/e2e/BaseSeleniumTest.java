@@ -3,6 +3,7 @@ package com.example.waiterapp.e2e;
 import io.github.bonigarcia.wdm.WebDriverManager;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Tag;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -13,11 +14,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.time.Duration;
 
-/**
- * Classe base para todos os testes Selenium E2E.
- * Requer que o servidor esteja rodando em localhost:8080 (docker-compose up).
- * Para executar: mvn test -Dtest="*E2ETest" -Dgroups="e2e"
- */
+@Tag("e2e")
 public abstract class BaseSeleniumTest {
 
     protected static final String BASE_URL = "http://localhost:8080";
@@ -34,6 +31,7 @@ public abstract class BaseSeleniumTest {
         options.addArguments("--no-sandbox");
         options.addArguments("--disable-dev-shm-usage");
         options.addArguments("--window-size=1920,1080");
+        options.addArguments("--remote-allow-origins=*");
         driver = new ChromeDriver(options);
         wait = new WebDriverWait(driver, TIMEOUT);
         driver.get(BASE_URL);

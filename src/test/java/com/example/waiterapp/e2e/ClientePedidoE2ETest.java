@@ -17,7 +17,7 @@ import java.time.Duration;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-public class ClientePedidoE2ETest {
+class ClientePedidoE2ETest {
 
     private WebDriver driver;
     private WebDriverWait wait;
@@ -27,10 +27,6 @@ public class ClientePedidoE2ETest {
         WebDriverManager.chromedriver().setup();
 
         ChromeOptions options = new ChromeOptions();
-
-        // Deixe comentado para ver o navegador abrindo
-        // options.addArguments("--headless=new");
-
         options.addArguments("--no-sandbox");
         options.addArguments("--disable-dev-shm-usage");
         options.addArguments("--remote-allow-origins=*");

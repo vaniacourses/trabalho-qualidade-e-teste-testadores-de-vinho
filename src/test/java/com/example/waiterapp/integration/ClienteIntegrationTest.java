@@ -1,6 +1,6 @@
 package com.example.waiterapp.integration;
 
-import com.example.waiterapp.Cliente.ClienteDTO;
+import com.example.waiterapp.cliente.ClienteDTO;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;

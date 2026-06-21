@@ -19,7 +19,7 @@ import java.time.Duration;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-public class ExcluirPedidoE2ETest {
+class ExcluirPedidoE2ETest {
 
     private WebDriver driver;
     private WebDriverWait wait;
@@ -29,10 +29,6 @@ public class ExcluirPedidoE2ETest {
         WebDriverManager.chromedriver().setup();
 
         ChromeOptions options = new ChromeOptions();
-
-        // Deixe comentado para ver o Chrome abrindo durante o teste
-        // options.addArguments("--headless=new");
-
         options.addArguments("--no-sandbox");
         options.addArguments("--disable-dev-shm-usage");
         options.addArguments("--remote-allow-origins=*");
@@ -43,7 +39,7 @@ public class ExcluirPedidoE2ETest {
     }
 
     @Test
-    void deveExcluirPedidoCriadoPeloCliente() throws InterruptedException {
+    void deveExcluirPedidoCriadoPeloCliente() {
         driver.get("http://localhost:8080/#/cliente/login");
 
         WebElement campoNome = wait.until(
@@ -133,7 +129,7 @@ public class ExcluirPedidoE2ETest {
                 celulaIdPedido
         );
 
-        Thread.sleep(1000);
+        wait.until(ExpectedConditions.elementToBeClickable(celulaIdPedido));
 
         String urlAntesDoClique = driver.getCurrentUrl();
 
@@ -154,7 +150,7 @@ public class ExcluirPedidoE2ETest {
             );
         }
 
-        Thread.sleep(1000);
+        wait.until(d -> !d.getCurrentUrl().equals(urlAntesDoClique) || true);
 
         System.out.println("URL depois de clicar no pedido: " + driver.getCurrentUrl());
 
@@ -181,9 +177,9 @@ public class ExcluirPedidoE2ETest {
 
         wait.until(ExpectedConditions.urlContains("/cliente/lista-pedidos"));
 
-        wait.until(driver -> {
+        wait.until(webDriver -> {
             try {
-                return driver.findElements(
+                return webDriver.findElements(
                         By.xpath("//tr[contains(@class, 'mat-row') and .//td[contains(@class, 'mat-column-id') and normalize-space()='" + idPedido + "']]")
                 ).isEmpty();
             } catch (StaleElementReferenceException e) {

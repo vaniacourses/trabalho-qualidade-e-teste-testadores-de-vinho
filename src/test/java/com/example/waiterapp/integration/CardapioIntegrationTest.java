@@ -1,7 +1,7 @@
 package com.example.waiterapp.integration;
 
-import com.example.waiterapp.Cardapio.CardapioDTO;
-import com.example.waiterapp.Cardapio.CardapioRepository;
+import com.example.waiterapp.cardapio.CardapioDTO;
+import com.example.waiterapp.cardapio.CardapioRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;

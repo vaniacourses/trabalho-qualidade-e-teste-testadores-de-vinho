@@ -9,7 +9,7 @@ import org.openqa.selenium.chrome.ChromeOptions;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-public class AplicacaoE2ETest {
+class AplicacaoE2ETest {
 
     private WebDriver driver;
 
@@ -31,7 +31,7 @@ public class AplicacaoE2ETest {
         String pagina = driver.getPageSource();
 
         assertTrue(
-                pagina.length() > 0,
+                !pagina.isEmpty(),
                 "A página da aplicação deveria carregar algum conteúdo"
         );
     }
