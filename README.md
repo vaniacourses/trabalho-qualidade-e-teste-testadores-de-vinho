@@ -112,24 +112,24 @@ mvn test
 | `PedidoTest.java` | `Pedido` | 27 | [`src/test/.../Pedido/PedidoTest.java`](src/test/java/com/example/waiterapp/Pedido/PedidoTest.java) |
 | `PedidoServiceTest.java` | `PedidoService` | 20 | [`src/test/.../Pedido/PedidoServiceTest.java`](src/test/java/com/example/waiterapp/Pedido/PedidoServiceTest.java) |
 | `ItemPedidoTest.java` | `ItemPedido` | 15 | [`src/test/.../ItemPedido/ItemPedidoTest.java`](src/test/java/com/example/waiterapp/ItemPedido/ItemPedidoTest.java) |
-| `PratoTest.java` | `Prato` | 14 | [`src/test/.../Item/Prato/PratoTest.java`](src/test/java/com/example/waiterapp/Item/Prato/PratoTest.java) |
-| `ItemServiceTest.java` | `ItemService` | 20 | [`src/test/.../Item/ItemServiceTest.java`](src/test/java/com/example/waiterapp/Item/ItemServiceTest.java) |
-| `ClienteServiceTest.java` | `ClienteService` | 23 | [`src/test/.../Cliente/ClienteServiceTest.java`](src/test/java/com/example/waiterapp/Cliente/ClienteServiceTest.java) |
-| `GarcomServiceTest.java` | `GarcomService` | 17 | [`src/test/.../Garcom/GarcomServiceTest.java`](src/test/java/com/example/waiterapp/Garcom/GarcomServiceTest.java) |
-| `CardapioServiceTest.java` | `CardapioService` | 18 | [`src/test/.../Cardapio/CardapioServiceTest.java`](src/test/java/com/example/waiterapp/Cardapio/CardapioServiceTest.java) |
-| `PagamentoTest.java` | `Pagamento`, `PagamentoComCartao`, `PagamentoComDinheiro` | 27 | [`src/test/.../Pagamento/PagamentoTest.java`](src/test/java/com/example/waiterapp/Pagamento/PagamentoTest.java) |
 | `ItemPedidoPKTest.java` | `ItemPedidoPK` | 13 | [`src/test/.../ItemPedido/ItemPedidoPKTest.java`](src/test/java/com/example/waiterapp/ItemPedido/ItemPedidoPKTest.java) |
-| `ClienteTest.java` | `Cliente` | 10 | [`src/test/.../Cliente/ClienteTest.java`](src/test/java/com/example/waiterapp/Cliente/ClienteTest.java) |
-| `GarcomTest.java` | `Garcom` | 10 | [`src/test/.../Garcom/GarcomTest.java`](src/test/java/com/example/waiterapp/Garcom/GarcomTest.java) |
+| `PratoTest.java` | `Prato` | 14 | [`src/test/.../Item/Prato/PratoTest.java`](src/test/java/com/example/waiterapp/Item/Prato/PratoTest.java) |
 | `ItemTest.java` | `Item` | 10 | [`src/test/.../Item/ItemTest.java`](src/test/java/com/example/waiterapp/Item/ItemTest.java) |
+| `ItemServiceTest.java` | `ItemService` | 20 | [`src/test/.../Item/ItemServiceTest.java`](src/test/java/com/example/waiterapp/Item/ItemServiceTest.java) |
+| `ClienteTest.java` | `Cliente` | 10 | [`src/test/.../Cliente/ClienteTest.java`](src/test/java/com/example/waiterapp/Cliente/ClienteTest.java) |
+| `ClienteServiceTest.java` | `ClienteService` | 23 | [`src/test/.../Cliente/ClienteServiceTest.java`](src/test/java/com/example/waiterapp/Cliente/ClienteServiceTest.java) |
+| `GarcomTest.java` | `Garcom` | 10 | [`src/test/.../Garcom/GarcomTest.java`](src/test/java/com/example/waiterapp/Garcom/GarcomTest.java) |
+| `GarcomServiceTest.java` | `GarcomService` | 17 | [`src/test/.../Garcom/GarcomServiceTest.java`](src/test/java/com/example/waiterapp/Garcom/GarcomServiceTest.java) |
 | `CardapioTest.java` | `Cardapio` | 10 | [`src/test/.../Cardapio/CardapioTest.java`](src/test/java/com/example/waiterapp/Cardapio/CardapioTest.java) |
+| `CardapioServiceTest.java` | `CardapioService` | 18 | [`src/test/.../Cardapio/CardapioServiceTest.java`](src/test/java/com/example/waiterapp/Cardapio/CardapioServiceTest.java) |
 | `IngredienteTest.java` | `Ingrediente` | 10 | [`src/test/.../Ingrediente/IngredienteTest.java`](src/test/java/com/example/waiterapp/Ingrediente/IngredienteTest.java) |
+| `PagamentoTest.java` | `Pagamento`, `PagamentoComCartao`, `PagamentoComDinheiro` | 27 | [`src/test/.../Pagamento/PagamentoTest.java`](src/test/java/com/example/waiterapp/Pagamento/PagamentoTest.java) |
 
 **Total: ~265 testes (unitarios + integracao, excluindo E2E)**
 
 ### 3.1 Cobertura de Testes (JaCoCo)
 
-Resultados de cobertura do JaCoCo apos melhoria da cobertura estrutural de branches (testes unitarios + integracao; E2E excluidos):
+Resultados de cobertura do JaCoCo (testes unitarios + integracao; E2E excluidos):
 
 | Grupo | Classes | Metodos | Linhas | Branches (decisoes) |
 |---|---:|---:|---:|---:|
@@ -266,18 +266,27 @@ docker-compose up
 
 ## Artefatos da Entrega 2 (17/06/2026)
 
-### 5. Testes Unitarios Melhorados
-
-Novos testes adicionados cobrindo a hierarquia de Pagamento e branches antes descobertos:
+### 5. Testes Unitarios
 
 | Arquivo | Classe Testada | Testes | Link |
 |---|---|---|---|
-| `PagamentoTest.java` | `Pagamento`, `PagamentoComCartao`, `PagamentoComDinheiro` | 27 | [`src/test/.../Pagamento/PagamentoTest.java`](src/test/java/com/example/waiterapp/Pagamento/PagamentoTest.java) |
 | `PedidoTest.java` | `Pedido` | 27 | [`src/test/.../Pedido/PedidoTest.java`](src/test/java/com/example/waiterapp/Pedido/PedidoTest.java) |
 | `PedidoServiceTest.java` | `PedidoService` | 20 | [`src/test/.../Pedido/PedidoServiceTest.java`](src/test/java/com/example/waiterapp/Pedido/PedidoServiceTest.java) |
+| `ItemPedidoTest.java` | `ItemPedido` | 15 | [`src/test/.../ItemPedido/ItemPedidoTest.java`](src/test/java/com/example/waiterapp/ItemPedido/ItemPedidoTest.java) |
+| `ItemPedidoPKTest.java` | `ItemPedidoPK` | 13 | [`src/test/.../ItemPedido/ItemPedidoPKTest.java`](src/test/java/com/example/waiterapp/ItemPedido/ItemPedidoPKTest.java) |
+| `PratoTest.java` | `Prato` | 14 | [`src/test/.../Item/Prato/PratoTest.java`](src/test/java/com/example/waiterapp/Item/Prato/PratoTest.java) |
+| `ItemTest.java` | `Item` | 10 | [`src/test/.../Item/ItemTest.java`](src/test/java/com/example/waiterapp/Item/ItemTest.java) |
 | `ItemServiceTest.java` | `ItemService` | 20 | [`src/test/.../Item/ItemServiceTest.java`](src/test/java/com/example/waiterapp/Item/ItemServiceTest.java) |
+| `ClienteTest.java` | `Cliente` | 10 | [`src/test/.../Cliente/ClienteTest.java`](src/test/java/com/example/waiterapp/Cliente/ClienteTest.java) |
+| `ClienteServiceTest.java` | `ClienteService` | 23 | [`src/test/.../Cliente/ClienteServiceTest.java`](src/test/java/com/example/waiterapp/Cliente/ClienteServiceTest.java) |
+| `GarcomTest.java` | `Garcom` | 10 | [`src/test/.../Garcom/GarcomTest.java`](src/test/java/com/example/waiterapp/Garcom/GarcomTest.java) |
+| `GarcomServiceTest.java` | `GarcomService` | 17 | [`src/test/.../Garcom/GarcomServiceTest.java`](src/test/java/com/example/waiterapp/Garcom/GarcomServiceTest.java) |
+| `CardapioTest.java` | `Cardapio` | 10 | [`src/test/.../Cardapio/CardapioTest.java`](src/test/java/com/example/waiterapp/Cardapio/CardapioTest.java) |
+| `CardapioServiceTest.java` | `CardapioService` | 18 | [`src/test/.../Cardapio/CardapioServiceTest.java`](src/test/java/com/example/waiterapp/Cardapio/CardapioServiceTest.java) |
+| `IngredienteTest.java` | `Ingrediente` | 10 | [`src/test/.../Ingrediente/IngredienteTest.java`](src/test/java/com/example/waiterapp/Ingrediente/IngredienteTest.java) |
+| `PagamentoTest.java` | `Pagamento`, `PagamentoComCartao`, `PagamentoComDinheiro` | 27 | [`src/test/.../Pagamento/PagamentoTest.java`](src/test/java/com/example/waiterapp/Pagamento/PagamentoTest.java) |
 
-**Total acumulado: ~265 testes (unitarios + integracao, excluindo E2E)**
+**Total: ~265 testes (unitarios + integracao, excluindo E2E)**
 
 ---
 
@@ -287,8 +296,8 @@ Testes com Spring Boot + H2 em memoria, testando a camada Controller → Service
 
 | Arquivo | Modulo Testado | Testes | Link |
 |---|---|---|---|
-| `ClienteIntegrationTest.java` | Cliente (CRUD + busca por CPF + POST sem CPF) | 9 | [`src/test/.../integration/ClienteIntegrationTest.java`](src/test/java/com/example/waiterapp/integration/ClienteIntegrationTest.java) |
-| `CardapioIntegrationTest.java` | Cardapio (CRUD + 404) | 7 | [`src/test/.../integration/CardapioIntegrationTest.java`](src/test/java/com/example/waiterapp/integration/CardapioIntegrationTest.java) |
+| `ClienteIntegrationTest.java` | Cliente (CRUD + busca por CPF) | 9 | [`src/test/.../integration/ClienteIntegrationTest.java`](src/test/java/com/example/waiterapp/integration/ClienteIntegrationTest.java) |
+| `CardapioIntegrationTest.java` | Cardapio (CRUD + 404) | 8 | [`src/test/.../integration/CardapioIntegrationTest.java`](src/test/java/com/example/waiterapp/integration/CardapioIntegrationTest.java) |
 
 **Como executar (excluindo E2E):**
 
@@ -309,6 +318,16 @@ Testes de ponta a ponta com Selenium 4 + WebDriverManager. Requerem a aplicacao 
 | `CardapioE2ETest.java` | API de cardapios, 404, itens | [`src/test/.../e2e/CardapioE2ETest.java`](src/test/java/com/example/waiterapp/e2e/CardapioE2ETest.java) |
 | `GarcomE2ETest.java` | API de garcons, Swagger UI, performance | [`src/test/.../e2e/GarcomE2ETest.java`](src/test/java/com/example/waiterapp/e2e/GarcomE2ETest.java) |
 
+#### Requisito Não Funcional
+
+Atributo de qualidade coberto por teste de sistema: **eficiencia de desempenho** (comportamento temporal — [ISO/IEC 25010](docs/medidas-iso-25010.md)).
+
+| ID | Arquivo | Metodo | Cenario | Limite | Link |
+|---|---|---|---|---|---|
+| RNF-01 | `PedidoE2ETest.java` | `paginaPrincipal_tempoCarregamento_deveSerAceitavel` | Carregamento da pagina inicial | < 5 s | [`src/test/.../e2e/PedidoE2ETest.java`](src/test/java/com/example/waiterapp/e2e/PedidoE2ETest.java) |
+| RNF-02 | `ClienteE2ETest.java` | `apiClientes_tempoResposta_deveSerAceitavel` | Resposta de `GET /api/clientes` | < 3 s | [`src/test/.../e2e/ClienteE2ETest.java`](src/test/java/com/example/waiterapp/e2e/ClienteE2ETest.java) |
+| RNF-03 | `GarcomE2ETest.java` | `apiGarcons_tempoResposta_deveSerAceitavel` | Resposta de `GET /api/garcons` | < 3 s | [`src/test/.../e2e/GarcomE2ETest.java`](src/test/java/com/example/waiterapp/e2e/GarcomE2ETest.java) |
+
 **Como executar os testes E2E:**
 
 ```bash
@@ -323,7 +342,7 @@ mvn test -Dgroups=e2e
 
 ### 8. Cobertura Estrutural (JaCoCo — Tecnica Todas-Arestas)
 
-Resultados apos a melhoria da cobertura de branches (265 testes unitarios + integracao; E2E excluidos):
+Resultados com 265 testes unitarios + integracao (E2E excluidos):
 
 **Totais gerais:**
 
@@ -349,27 +368,6 @@ Resultados apos a melhoria da cobertura de branches (265 testes unitarios + inte
 | `Cardapio` | 5/6 | **83.3%** | ✅ |
 | `Ingrediente` | 5/6 | **83.3%** | ✅ |
 
-**Novos testes adicionados para cobertura estrutural de branches:**
-
-| Arquivo | Classe testada | Foco |
-|---|---|---|
-| `ItemPedidoPKTest.java` | `ItemPedidoPK` | `equals`/`hashCode` da chave composta |
-| `ClienteTest.java` | `Cliente` | `equals`/`hashCode` e branches de `null` |
-| `GarcomTest.java` | `Garcom` | `equals`/`hashCode` |
-| `ItemTest.java` | `Item` | `equals`/`hashCode` |
-| `CardapioTest.java` | `Cardapio` | `equals`/`hashCode` |
-| `IngredienteTest.java` | `Ingrediente` | `equals`/`hashCode` |
-
-Tambem foram ampliados `PedidoTest`, `PagamentoTest` e `ClienteIntegrationTest` (cenario POST sem CPF).
-
-**Gate automatico no `pom.xml`:** `mvn verify` falha se branches < 80%.
-
-**Como gerar o relatorio e validar:**
-
-```bash
-.\mvnw.cmd clean verify -Dtest=!**/e2e/**
-# Relatorio: target/site/jacoco/index.html
-```
 
 ---
 

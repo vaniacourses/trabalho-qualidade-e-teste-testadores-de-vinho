@@ -44,7 +44,7 @@ Os componentes selecionados para teste estão listados abaixo, priorizados por c
 | `ItemPedido` | Entity | Média | Cálculo de subtotal; chave composta; comportamento de preço |
 | `ItemPedidoPK` | Entity (PK) | Média | Chave composta; `equals`/`hashCode` com branches de `null` |
 | `Prato` | Entity | Média | Cálculo de calorias via stream sobre lista de ingredientes |
-| `Cliente`, `Garcom`, `Item`, `Cardapio`, `Ingrediente` | Entity | Baixa | `equals`/`hashCode` — cobertura estrutural de branches (todas-arestas) |
+| `Cliente`, `Garcom`, `Item`, `Cardapio`, `Ingrediente` | Entity | Baixa | Igualdade e hash code baseados no ID |
 | `ItemService` | Service | Média | CRUD com tratamento de exceções e mapeamento DTO |
 | `ClienteService` | Service | Média | Gerenciamento de clientes e relacionamento com pedidos |
 | `GarcomService` | Service | Média | Gerenciamento de garçons com tratamento de exceções |
@@ -76,6 +76,7 @@ Os componentes selecionados para teste estão listados abaixo, priorizados por c
 - Subtotal com preço armazenado em `ItemPedido` diferente do preço do item (`getSubTotal` ignora campo `preco`)
 - Comportamento dos construtores
 - Mutação de preço e quantidade
+- Igualdade e hash code da chave composta (`ItemPedidoPK`)
 
 ### 3.4 Prato (entidade)
 - Soma de calorias dos ingredientes (`getCaloriaTotal`)
@@ -109,22 +110,29 @@ Os componentes selecionados para teste estão listados abaixo, priorizados por c
 - `DataIntegrityViolationException` na exclusão com itens associados
 - Mapeamento DTO → entidade
 
-### 3.9 Entidades JPA — cobertura estrutural de branches (`equals`/`hashCode`)
+### 3.9 Cliente (entidade)
+- Igualdade e hash code baseados no ID
 
-Testes unitários dedicados para o critério **todas-arestas** (>= 80% de branches no projeto):
+### 3.10 Garcom (entidade)
+- Igualdade e hash code baseados no ID
 
-| Classe | Arquivo de teste | Branches exercitados |
-|---|---|---|
-| `ItemPedidoPK` | `ItemPedidoPKTest.java` | Referência, `null`, classe diferente, item/pedido iguais e distintos, combinações com `null` |
-| `Cliente` | `ClienteTest.java` | Mesmo padrão baseado em `id` |
-| `Garcom` | `GarcomTest.java` | Mesmo padrão baseado em `id` |
-| `Item` | `ItemTest.java` | Mesmo padrão baseado em `id` |
-| `Cardapio` | `CardapioTest.java` | Mesmo padrão baseado em `id` |
-| `Ingrediente` | `IngredienteTest.java` | Mesmo padrão baseado em `id` |
-| `Pedido` | `PedidoTest.java` (ampliado) | Inclui ids ambos `null` e id assimétrico |
-| `Pagamento` | `PagamentoTest.java` (ampliado) | Inclui ids `null`, classe diferente e tipos distintos |
+### 3.11 Item (entidade)
+- Igualdade e hash code baseados no ID
 
-Integração: `ClienteIntegrationTest` — cenário POST sem CPF (branch `cpf == null` em `ClienteController.insereCliente`).
+### 3.12 Cardapio (entidade)
+- Igualdade e hash code baseados no ID
+
+### 3.13 Ingrediente (entidade)
+- Igualdade e hash code baseados no ID
+
+### 3.14 Pagamento
+- Hierarquia polimórfica (`PagamentoComCartao`, `PagamentoComDinheiro`)
+- Igualdade e hash code baseados no ID
+
+### 3.15 Cliente (integração)
+- CRUD via API REST (`ClienteIntegrationTest`)
+- Busca por CPF e inserção com CPF duplicado
+- Inserção sem CPF informado
 
 ---
 
@@ -142,7 +150,7 @@ Integração: `ClienteIntegrationTest` — cenário POST sem CPF (branch `cpf ==
 ### 5.1 Tipos de Teste
 - **Testes Unitários Automatizados** com isolamento total via mocks
 - **Testes de Integração** com Spring Boot + H2 (Controller → Service → Repository)
-- **Testes de Sistema (E2E)** com Selenium 4 (excluídos da medição JaCoCo)
+- **Testes de Sistema (E2E)** com Selenium 4 (não contabilizados na medição JaCoCo)
 
 ### 5.2 Técnicas Aplicadas
 - **Particionamento em Classes de Equivalência:** valores válidos, limites e inválidos
@@ -227,23 +235,24 @@ mvn clean verify -Dtest=!**/e2e/**
 
 | Artefato | Localização | Descrição |
 |---|---|---|
-| Testes unitários — Pedido | `src/test/.../Pedido/PedidoTest.java` | 15 testes para a entidade Pedido |
-| Testes unitários — PedidoService | `src/test/.../Pedido/PedidoServiceTest.java` | 17 testes para PedidoService |
+| Testes unitários — Pedido | `src/test/.../Pedido/PedidoTest.java` | 27 testes para a entidade Pedido |
+| Testes unitários — PedidoService | `src/test/.../Pedido/PedidoServiceTest.java` | 20 testes para PedidoService |
 | Testes unitários — ItemPedido | `src/test/.../ItemPedido/ItemPedidoTest.java` | 15 testes para ItemPedido |
-| Testes unitários — Prato | `src/test/.../Item/Prato/PratoTest.java` | 13 testes para Prato |
-| Testes unitários — ItemService | `src/test/.../Item/ItemServiceTest.java` | 15 testes para ItemService |
-| Testes unitários — ClienteService | `src/test/.../Cliente/ClienteServiceTest.java` | 19 testes para ClienteService |
-| Testes unitários — GarcomService | `src/test/.../Garcom/GarcomServiceTest.java` | 16 testes para GarcomService |
-| Testes unitários — CardapioService | `src/test/.../Cardapio/CardapioServiceTest.java` | 16 testes para CardapioService |
+| Testes unitários — ItemPedidoPK | `src/test/.../ItemPedido/ItemPedidoPKTest.java` | 13 testes para ItemPedidoPK |
+| Testes unitários — Prato | `src/test/.../Item/Prato/PratoTest.java` | 14 testes para Prato |
+| Testes unitários — Item | `src/test/.../Item/ItemTest.java` | 10 testes para Item |
+| Testes unitários — ItemService | `src/test/.../Item/ItemServiceTest.java` | 20 testes para ItemService |
+| Testes unitários — Cliente | `src/test/.../Cliente/ClienteTest.java` | 10 testes para Cliente |
+| Testes unitários — ClienteService | `src/test/.../Cliente/ClienteServiceTest.java` | 23 testes para ClienteService |
+| Testes unitários — Garcom | `src/test/.../Garcom/GarcomTest.java` | 10 testes para Garcom |
+| Testes unitários — GarcomService | `src/test/.../Garcom/GarcomServiceTest.java` | 17 testes para GarcomService |
+| Testes unitários — Cardapio | `src/test/.../Cardapio/CardapioTest.java` | 10 testes para Cardapio |
+| Testes unitários — CardapioService | `src/test/.../Cardapio/CardapioServiceTest.java` | 18 testes para CardapioService |
+| Testes unitários — Ingrediente | `src/test/.../Ingrediente/IngredienteTest.java` | 10 testes para Ingrediente |
 | Testes unitários — Pagamento | `src/test/.../Pagamento/PagamentoTest.java` | 27 testes para hierarquia Pagamento |
-| Testes unitários — ItemPedidoPK | `src/test/.../ItemPedido/ItemPedidoPKTest.java` | 13 testes para chave composta |
-| Testes unitários — Cliente (entidade) | `src/test/.../Cliente/ClienteTest.java` | 10 testes para entidade Cliente |
-| Testes unitários — Garcom (entidade) | `src/test/.../Garcom/GarcomTest.java` | 10 testes para entidade Garcom |
-| Testes unitários — Item (entidade) | `src/test/.../Item/ItemTest.java` | 10 testes para entidade Item |
-| Testes unitários — Cardapio (entidade) | `src/test/.../Cardapio/CardapioTest.java` | 10 testes para entidade Cardapio |
-| Testes unitários — Ingrediente | `src/test/.../Ingrediente/IngredienteTest.java` | 10 testes para entidade Ingrediente |
-| Testes de integração — Cliente | `src/test/.../integration/ClienteIntegrationTest.java` | 9 testes (inclui POST sem CPF) |
+| Testes de integração — Cliente | `src/test/.../integration/ClienteIntegrationTest.java` | 9 testes |
 | Testes de integração — Cardapio | `src/test/.../integration/CardapioIntegrationTest.java` | 8 testes |
+| Testes de sistema — desempenho (RNF) | `src/test/.../e2e/PedidoE2ETest.java`, `ClienteE2ETest.java`, `GarcomE2ETest.java` | 3 testes de tempo de resposta (Selenium) |
 | Relatório JaCoCo | `target/site/jacoco/index.html` | Cobertura estrutural (90% branches no total) |
 | Plano de Teste | `docs/plano-de-teste.md` | Este documento |
 
@@ -289,6 +298,12 @@ mvn clean verify -Dtest=!**/e2e/**
 | PE-10 | `equals` | Mesmo ID | Happy Path | `true` |
 | PE-11 | `equals` | IDs diferentes | Negative | `false` |
 | PE-12 | `equals` | Comparado com `null` | Negative | `false` |
+| PE-13 | `equals` | Mesmo objeto | Happy Path | `true` |
+| PE-14 | `equals` | Classe diferente | Negative | `false` |
+| PE-15 | `equals` | Ambos os IDs são `null` | Edge Case | `true` |
+| PE-16 | `equals` | Apenas um ID é `null` | Edge Case | `false` |
+| PE-17 | `hashCode` | Mesmo ID | Happy Path | Hash igual |
+| PE-18 | `hashCode` | IDs distintos | Negative | Hash diferente |
 
 ### 10.3 ItemPedido (entidade)
 
@@ -302,6 +317,19 @@ mvn clean verify -Dtest=!**/e2e/**
 | IP-06 | `getSubTotal` | Preço do item = 0 | Negative | 0.0 |
 | IP-07 | `getSubTotal` | Quantidade 1000 | Boundary | 10000.0 |
 | IP-08 | `getSubTotal` | Preço armazenado ≠ preço do item | Edge Case | Usa preço do item (campo `preco` ignorado) |
+
+### 10.3.1 ItemPedidoPK
+
+| ID | Método | Cenário | Tipo | Resultado Esperado |
+|---|---|---|---|---|
+| PK-01 | `equals` | Mesmo objeto | Happy Path | `true` |
+| PK-02 | `equals` | Comparado com `null` | Negative | `false` |
+| PK-03 | `equals` | Classe diferente | Negative | `false` |
+| PK-04 | `equals` | Mesmos item e pedido | Happy Path | `true` |
+| PK-05 | `equals` | Item diferente | Negative | `false` |
+| PK-06 | `equals` | Pedido diferente | Negative | `false` |
+| PK-07 | `equals` | Item e pedido `null` em ambos | Edge Case | `true` |
+| PK-08 | `hashCode` | Chaves equivalentes | Happy Path | Hash igual |
 
 ### 10.4 Prato (entidade)
 
@@ -322,23 +350,95 @@ mvn clean verify -Dtest=!**/e2e/**
 | CS-02 | `atualizaCliente` | ID inexistente | Negative | Persiste mesmo assim |
 | CS-03 | `apagaCliente` | ID inexistente | Negative | `deleteById` sem verificar existência |
 
-### 10.6 Entidades JPA — `equals`/`hashCode` (cobertura estrutural)
-
-Padrão aplicado em `ItemPedidoPKTest`, `ClienteTest`, `GarcomTest`, `ItemTest`, `CardapioTest`, `IngredienteTest` e casos ampliados em `PedidoTest`/`PagamentoTest`:
+### 10.6 Cliente (entidade)
 
 | ID | Método | Cenário | Tipo | Resultado Esperado |
 |---|---|---|---|---|
-| EQ-01 | `equals` | Mesmo objeto (`this == o`) | Happy Path | `true` |
-| EQ-02 | `equals` | Comparado com `null` | Negative | `false` |
-| EQ-03 | `equals` | Classe diferente | Negative | `false` |
-| EQ-04 | `equals` | Mesmo `id` (ou mesmos campos da PK) | Happy Path | `true` |
-| EQ-05 | `equals` | `id` distinto | Negative | `false` |
-| EQ-06 | `equals` | Ambos os `id` são `null` | Edge Case | `true` |
-| EQ-07 | `equals` | Apenas um `id` é `null` | Edge Case | `false` |
-| EQ-08 | `hashCode` | Mesmo `id` | Happy Path | Hash igual |
-| EQ-09 | `hashCode` | `id` distinto | Negative | Hash diferente |
+| CL-01 | `equals` | Mesmo ID | Happy Path | `true` |
+| CL-02 | `equals` | IDs diferentes | Negative | `false` |
+| CL-03 | `equals` | Comparado com `null` | Negative | `false` |
+| CL-04 | `equals` | Classe diferente | Negative | `false` |
+| CL-05 | `equals` | Ambos os IDs são `null` | Edge Case | `true` |
+| CL-06 | `hashCode` | Mesmo ID | Happy Path | Hash igual |
 
-**Resultado de cobertura (JaCoCo, excluindo E2E):** **90% de branches** (54/60), acima da meta de 80% (todas-arestas).
+### 10.7 Garcom (entidade)
+
+| ID | Método | Cenário | Tipo | Resultado Esperado |
+|---|---|---|---|---|
+| GA-01 | `equals` | Mesmo ID | Happy Path | `true` |
+| GA-02 | `equals` | IDs diferentes | Negative | `false` |
+| GA-03 | `equals` | Comparado com `null` | Negative | `false` |
+| GA-04 | `hashCode` | Mesmo ID | Happy Path | Hash igual |
+
+### 10.8 Item (entidade)
+
+| ID | Método | Cenário | Tipo | Resultado Esperado |
+|---|---|---|---|---|
+| IT-01 | `equals` | Mesmo ID | Happy Path | `true` |
+| IT-02 | `equals` | IDs diferentes | Negative | `false` |
+| IT-03 | `equals` | Comparado com `null` | Negative | `false` |
+| IT-04 | `hashCode` | Mesmo ID | Happy Path | Hash igual |
+
+### 10.9 Cardapio (entidade)
+
+| ID | Método | Cenário | Tipo | Resultado Esperado |
+|---|---|---|---|---|
+| CA-01 | `equals` | Mesmo ID | Happy Path | `true` |
+| CA-02 | `equals` | IDs diferentes | Negative | `false` |
+| CA-03 | `equals` | Comparado com `null` | Negative | `false` |
+| CA-04 | `hashCode` | Mesmo ID | Happy Path | Hash igual |
+
+### 10.10 Ingrediente (entidade)
+
+| ID | Método | Cenário | Tipo | Resultado Esperado |
+|---|---|---|---|---|
+| IN-01 | `equals` | Mesmo ID | Happy Path | `true` |
+| IN-02 | `equals` | IDs diferentes | Negative | `false` |
+| IN-03 | `equals` | Comparado com `null` | Negative | `false` |
+| IN-04 | `hashCode` | Mesmo ID | Happy Path | Hash igual |
+
+### 10.11 Pagamento
+
+| ID | Método | Cenário | Tipo | Resultado Esperado |
+|---|---|---|---|---|
+| PG-01 | `equals` | Mesmo ID (mesma subclasse) | Happy Path | `true` |
+| PG-02 | `equals` | IDs diferentes | Negative | `false` |
+| PG-03 | `equals` | Comparado com `null` | Negative | `false` |
+| PG-04 | `equals` | Tipos distintos (cartão vs dinheiro) | Negative | `false` |
+| PG-05 | `equals` | Ambos os IDs são `null` | Edge Case | `true` |
+| PG-06 | `hashCode` | Mesmo ID | Happy Path | Hash igual |
+
+### 10.12 Cliente (integração)
+
+| ID | Endpoint | Cenário | Tipo | Resultado Esperado |
+|---|---|---|---|---|
+| CI-01 | `POST /api/clientes` | Dados válidos | Happy Path | `201 Created` |
+| CI-02 | `POST /api/clientes` | CPF já cadastrado | Edge Case | `200 OK` com cliente existente |
+| CI-03 | `POST /api/clientes` | Sem CPF informado | Edge Case | `201 Created` |
+| CI-04 | `GET /api/clientes/{id}` | Cliente existente | Happy Path | `200 OK` |
+| CI-05 | `DELETE /api/clientes/{id}` | Cliente existente | Happy Path | `204 No Content` |
+
+### 10.13 Requisito Não Funcional — Testes de Sistema (E2E)
+
+Atributo de qualidade verificado: **eficiência de desempenho** — subcaracterística **comportamento temporal** (ISO/IEC 25010). Detalhes das metas em [`docs/medidas-iso-25010.md`](medidas-iso-25010.md).
+
+| ID | Classe de teste | Método | Cenário | Limite | Resultado Esperado |
+|---|---|---|---|---|---|
+| RNF-01 | `PedidoE2ETest` | `paginaPrincipal_tempoCarregamento_deveSerAceitavel` | Carregamento da página inicial (`/`) | < 5 s | Página carrega dentro do tempo limite |
+| RNF-02 | `ClienteE2ETest` | `apiClientes_tempoResposta_deveSerAceitavel` | `GET /api/clientes` via navegador | < 3 s | API responde dentro do tempo limite |
+| RNF-03 | `GarcomE2ETest` | `apiGarcons_tempoResposta_deveSerAceitavel` | `GET /api/garcons` via navegador | < 3 s | API responde dentro do tempo limite |
+
+**Abordagem:** medição de tempo com `System.currentTimeMillis()` antes e depois da navegação Selenium até o endpoint ou página alvo.
+
+**Pré-requisitos:** aplicação em execução em `http://localhost:8080`.
+
+**Execução:**
+
+```bash
+mvn test -Dgroups=e2e
+```
+
+> **Observação:** os limites dos testes E2E (3–5 s) são mais permissivos que a meta de produção definida na ISO 25010 (≤ 500 ms p95 para CRUD), pois incluem overhead do navegador e do ambiente de teste.
 
 ---
 

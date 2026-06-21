@@ -47,6 +47,17 @@ Este documento define as **medidas de qualidade** dos atributos da norma **ISO/I
 | **Utilização de recursos** | 3    | Consumo de CPU e memória estável em servidor modesto (2 vCPU, 4 GB RAM) com até 30 requisições simultâneas, sem degradação progressiva | Ambiente típico de restaurante pequeno/médio. Não exige cluster, mas não pode vazar memória em turnos longos |
 | **Capacidade**             | 3    | Suportar **≥ 50 garçons/dispositivos** concorrentes e **≥ 200 pedidos ativos** sem violação dos SLAs de tempo                          | Escala adequada a restaurante de porte médio em horário de pico, sem over-engineering                        |
 
+### Requisito Não Funcional — Testes de Sistema Implementados
+
+A subcaracterística **comportamento temporal** é verificada por testes de sistema (E2E) com Selenium 4. Detalhes completos no [Plano de Teste](plano-de-teste.md#107-requisito-não-funcional--testes-de-sistema-e2e).
+
+| ID | Classe de teste | Cenário | Limite no teste | Meta ISO 25010 |
+|---|---|---|---|---|
+| RNF-01 | `PedidoE2ETest` | Carregamento da página inicial (`/`) | < 5 s | ≤ 500 ms (p95) para CRUD |
+| RNF-02 | `ClienteE2ETest` | `GET /api/clientes` | < 3 s | ≤ 500 ms (p95) para CRUD |
+| RNF-03 | `GarcomE2ETest` | `GET /api/garcons` | < 3 s | ≤ 500 ms (p95) para CRUD |
+
+**Execução:** `docker-compose up -d` e `mvn test -Dgroups=e2e`.
 
 ---
 
