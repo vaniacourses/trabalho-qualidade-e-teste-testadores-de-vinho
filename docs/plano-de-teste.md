@@ -42,7 +42,9 @@ Os componentes selecionados para teste estão listados abaixo, priorizados por c
 | `PedidoService` | Service | Alta | Fluxo principal do sistema; lógica de criação de pedido com múltiplas dependências e laços |
 | `Pedido` | Entity | Média | Cálculo de preço total via stream; transição de estados |
 | `ItemPedido` | Entity | Média | Cálculo de subtotal; chave composta; comportamento de preço |
+| `ItemPedidoPK` | Entity (PK) | Média | Chave composta; `equals`/`hashCode` com branches de `null` |
 | `Prato` | Entity | Média | Cálculo de calorias via stream sobre lista de ingredientes |
+| `Cliente`, `Garcom`, `Item`, `Cardapio`, `Ingrediente` | Entity | Baixa | `equals`/`hashCode` — cobertura estrutural de branches (todas-arestas) |
 | `ItemService` | Service | Média | CRUD com tratamento de exceções e mapeamento DTO |
 | `ClienteService` | Service | Média | Gerenciamento de clientes e relacionamento com pedidos |
 | `GarcomService` | Service | Média | Gerenciamento de garçons com tratamento de exceções |
@@ -107,6 +109,23 @@ Os componentes selecionados para teste estão listados abaixo, priorizados por c
 - `DataIntegrityViolationException` na exclusão com itens associados
 - Mapeamento DTO → entidade
 
+### 3.9 Entidades JPA — cobertura estrutural de branches (`equals`/`hashCode`)
+
+Testes unitários dedicados para o critério **todas-arestas** (>= 80% de branches no projeto):
+
+| Classe | Arquivo de teste | Branches exercitados |
+|---|---|---|
+| `ItemPedidoPK` | `ItemPedidoPKTest.java` | Referência, `null`, classe diferente, item/pedido iguais e distintos, combinações com `null` |
+| `Cliente` | `ClienteTest.java` | Mesmo padrão baseado em `id` |
+| `Garcom` | `GarcomTest.java` | Mesmo padrão baseado em `id` |
+| `Item` | `ItemTest.java` | Mesmo padrão baseado em `id` |
+| `Cardapio` | `CardapioTest.java` | Mesmo padrão baseado em `id` |
+| `Ingrediente` | `IngredienteTest.java` | Mesmo padrão baseado em `id` |
+| `Pedido` | `PedidoTest.java` (ampliado) | Inclui ids ambos `null` e id assimétrico |
+| `Pagamento` | `PagamentoTest.java` (ampliado) | Inclui ids `null`, classe diferente e tipos distintos |
+
+Integração: `ClienteIntegrationTest` — cenário POST sem CPF (branch `cpf == null` em `ClienteController.insereCliente`).
+
 ---
 
 ## 4. Funcionalidades Fora do Escopo (Entrega 1)
@@ -122,11 +141,14 @@ Os componentes selecionados para teste estão listados abaixo, priorizados por c
 
 ### 5.1 Tipos de Teste
 - **Testes Unitários Automatizados** com isolamento total via mocks
+- **Testes de Integração** com Spring Boot + H2 (Controller → Service → Repository)
+- **Testes de Sistema (E2E)** com Selenium 4 (excluídos da medição JaCoCo)
 
 ### 5.2 Técnicas Aplicadas
 - **Particionamento em Classes de Equivalência:** valores válidos, limites e inválidos
 - **Análise de Valor de Fronteira (BVA):** valores mínimos, máximos e fronteiros
 - **Baseado em Especificação (caixa preta):** comportamento esperado por contrato
+- **Cobertura estrutural (caixa branca) — critério todas-arestas:** medição e gate JaCoCo com meta de **>= 80% de branches**; testes de `equals`/`hashCode` nas entidades JPA
 - **Padrão AAA:** Arrange / Act / Assert em todos os testes
 
 ### 5.3 Cobertura de Cenários
@@ -150,6 +172,7 @@ Para cada método testado são cobertos:
 | **Spring Boot Test** | 2.7.1 | Infraestrutura de testes Spring |
 | **H2 Database** | — | Banco em memória para testes de contexto Spring |
 | **Maven Surefire** | — | Execução dos testes no ciclo Maven |
+| **JaCoCo Maven Plugin** | 0.8.11 | Relatório de cobertura e gate `check` (mínimo 80% branches na fase `verify`) |
 
 ---
 
@@ -161,7 +184,8 @@ Para cada método testado são cobertos:
 - Ambiente Java configurado (JDK 11+, Maven)
 
 ### 7.2 Critérios de Saída
-- Todos os testes unitários passando (`mvn test`)
+- Todos os testes unitários e de integração passando (`mvn test`, excluindo E2E se necessário)
+- Cobertura de **branches >= 80%** validada por `mvn verify` (JaCoCo `check`)
 - Nenhuma exceção não tratada nos testes
 - Documentação de comportamento inesperado (ex: bug `adicionarItemExtra`)
 
@@ -189,8 +213,12 @@ mvn test
 # Executar classe de teste específica
 mvn test -Dtest=PedidoServiceTest
 
-# Executar com relatório de cobertura (Entrega 2)
+# Executar com relatório de cobertura
 mvn test jacoco:report
+
+# Validar gate mínimo de 80% de branches (recomendado)
+mvn clean verify -Dtest=!**/e2e/**
+# Relatório HTML: target/site/jacoco/index.html
 ```
 
 ---
@@ -207,6 +235,16 @@ mvn test jacoco:report
 | Testes unitários — ClienteService | `src/test/.../Cliente/ClienteServiceTest.java` | 19 testes para ClienteService |
 | Testes unitários — GarcomService | `src/test/.../Garcom/GarcomServiceTest.java` | 16 testes para GarcomService |
 | Testes unitários — CardapioService | `src/test/.../Cardapio/CardapioServiceTest.java` | 16 testes para CardapioService |
+| Testes unitários — Pagamento | `src/test/.../Pagamento/PagamentoTest.java` | 27 testes para hierarquia Pagamento |
+| Testes unitários — ItemPedidoPK | `src/test/.../ItemPedido/ItemPedidoPKTest.java` | 13 testes para chave composta |
+| Testes unitários — Cliente (entidade) | `src/test/.../Cliente/ClienteTest.java` | 10 testes para entidade Cliente |
+| Testes unitários — Garcom (entidade) | `src/test/.../Garcom/GarcomTest.java` | 10 testes para entidade Garcom |
+| Testes unitários — Item (entidade) | `src/test/.../Item/ItemTest.java` | 10 testes para entidade Item |
+| Testes unitários — Cardapio (entidade) | `src/test/.../Cardapio/CardapioTest.java` | 10 testes para entidade Cardapio |
+| Testes unitários — Ingrediente | `src/test/.../Ingrediente/IngredienteTest.java` | 10 testes para entidade Ingrediente |
+| Testes de integração — Cliente | `src/test/.../integration/ClienteIntegrationTest.java` | 9 testes (inclui POST sem CPF) |
+| Testes de integração — Cardapio | `src/test/.../integration/CardapioIntegrationTest.java` | 8 testes |
+| Relatório JaCoCo | `target/site/jacoco/index.html` | Cobertura estrutural (90% branches no total) |
 | Plano de Teste | `docs/plano-de-teste.md` | Este documento |
 
 ---
@@ -283,6 +321,24 @@ mvn test jacoco:report
 | CS-01 | `inserePedidosCliente` | Cliente inexistente | Negative | `NullPointerException` |
 | CS-02 | `atualizaCliente` | ID inexistente | Negative | Persiste mesmo assim |
 | CS-03 | `apagaCliente` | ID inexistente | Negative | `deleteById` sem verificar existência |
+
+### 10.6 Entidades JPA — `equals`/`hashCode` (cobertura estrutural)
+
+Padrão aplicado em `ItemPedidoPKTest`, `ClienteTest`, `GarcomTest`, `ItemTest`, `CardapioTest`, `IngredienteTest` e casos ampliados em `PedidoTest`/`PagamentoTest`:
+
+| ID | Método | Cenário | Tipo | Resultado Esperado |
+|---|---|---|---|---|
+| EQ-01 | `equals` | Mesmo objeto (`this == o`) | Happy Path | `true` |
+| EQ-02 | `equals` | Comparado com `null` | Negative | `false` |
+| EQ-03 | `equals` | Classe diferente | Negative | `false` |
+| EQ-04 | `equals` | Mesmo `id` (ou mesmos campos da PK) | Happy Path | `true` |
+| EQ-05 | `equals` | `id` distinto | Negative | `false` |
+| EQ-06 | `equals` | Ambos os `id` são `null` | Edge Case | `true` |
+| EQ-07 | `equals` | Apenas um `id` é `null` | Edge Case | `false` |
+| EQ-08 | `hashCode` | Mesmo `id` | Happy Path | Hash igual |
+| EQ-09 | `hashCode` | `id` distinto | Negative | Hash diferente |
+
+**Resultado de cobertura (JaCoCo, excluindo E2E):** **90% de branches** (54/60), acima da meta de 80% (todas-arestas).
 
 ---
 

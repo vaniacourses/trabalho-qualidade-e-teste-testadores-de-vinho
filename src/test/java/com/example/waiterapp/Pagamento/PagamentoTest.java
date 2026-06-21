@@ -80,6 +80,29 @@ class PagamentoTest {
     }
 
     @Test
+    @DisplayName("PagamentoComCartao.equals deve retornar false comparado a classe diferente")
+    void pagamentoComCartao_equals_classeDiferente_retornaFalse() {
+        PagamentoComCartao p = new PagamentoComCartao(1L, Estado.PENDENTE, agora);
+        assertNotEquals(p, "pagamento");
+    }
+
+    @Test
+    @DisplayName("PagamentoComCartao.equals deve retornar true quando ambos os ids são null")
+    void pagamentoComCartao_equals_ambosIdsNull_retornaTrue() {
+        PagamentoComCartao a = new PagamentoComCartao();
+        PagamentoComCartao b = new PagamentoComCartao();
+        assertEquals(a, b);
+    }
+
+    @Test
+    @DisplayName("PagamentoComCartao.equals deve retornar false quando apenas um id é null")
+    void pagamentoComCartao_equals_apenasUmIdNull_retornaFalse() {
+        PagamentoComCartao comId = new PagamentoComCartao(1L, Estado.PENDENTE, agora);
+        PagamentoComCartao semId = new PagamentoComCartao();
+        assertNotEquals(comId, semId);
+    }
+
+    @Test
     @DisplayName("PagamentoComCartao.hashCode deve ser igual para mesmo id")
     void pagamentoComCartao_hashCode_mesmoId_igual() {
         PagamentoComCartao p1 = new PagamentoComCartao(1L, Estado.PENDENTE, agora);
