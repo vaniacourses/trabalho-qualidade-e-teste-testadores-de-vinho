@@ -14,6 +14,11 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.time.Duration;
 
+
+// BASE DE APOIO PARA TESTES DE CAIXA PRETA
+// Esta classe centraliza a configuração do navegador, URL base e métodos de espera utilizados nos testes E2E.
+// Ela não testa regra de negócio diretamente, mas permite que os demais testes simulem ações reais de usuário
+// e validem o comportamento externo da aplicação sem acessar sua implementação interna.
 @Tag("e2e")
 public abstract class BaseSeleniumTest {
 

@@ -17,6 +17,12 @@ import java.time.Duration;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+
+// TESTE DE CAIXA PRETA
+// Este teste cobre o fluxo completo de finalização de pedido pelo usuário.
+// O cliente realiza login, seleciona um prato, adiciona o item ao carrinho e finaliza o pedido.
+// A validação ocorre apenas pelo resultado observado na tela ou pela mudança de rota,
+// sem verificar diretamente métodos, serviços ou persistência no banco de dados.
 class FinalizarPedidoE2ETest {
 
     private WebDriver driver;

@@ -7,6 +7,12 @@ import org.openqa.selenium.By;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+
+// TESTE DE CAIXA PRETA
+// Estes testes verificam o comportamento externo das rotas relacionadas ao cardápio.
+// As validações são feitas a partir das respostas exibidas pelo navegador,
+// como retorno em formato JSON, ausência de erro 500 e carregamento da página inicial,
+// sem consultar diretamente serviços, banco de dados ou regras internas do sistema.
 @Tag("e2e")
 @DisplayName("Testes E2E - Cardápio")
 class CardapioE2ETest extends BaseSeleniumTest {

@@ -7,6 +7,10 @@ import org.openqa.selenium.By;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+// TESTE DE CAIXA PRETA
+// Esta classe testa funcionalidades relacionadas a clientes a partir da resposta visível da aplicação.
+// O objetivo é validar se os endpoints e a página principal respondem corretamente,
+// analisando somente saídas externas, como JSON, URL, tempo de resposta e conteúdo renderizado.
 @Tag("e2e")
 @DisplayName("Testes E2E - Clientes")
 class ClienteE2ETest extends BaseSeleniumTest {
