@@ -4,12 +4,6 @@
 
 ---
 
-## Projeto relacionado
-
-Este repositorio contem a documentacao e os testes do **WaiterApp**. O **segundo software** avaliado no trabalho possui um README proprio e esta disponivel no repositorio:
-
-- https://github.com/BielPimentaDev/Trabalho-POO-Simula-o-de-combate
-
 ## Descricao do Sistema
 
 O **WaiterApp** e uma API REST de gerenciamento de pedidos para restaurantes. O sistema permite que garcons registrem e acompanhem pedidos de clientes, consultem o cardapio, gerenciem itens e processem pagamentos.
@@ -196,6 +190,22 @@ O `pom.xml` configura o **JaCoCo Maven Plugin** com a meta `check` na fase `veri
 - Nomes no padrao `metodo_cenario_resultadoEsperado`
 
 ---
+
+
+# Testes Manuais - WaiterApp
+
+Este documento detalha os processos de QA do sistema.
+
+* 📄 **Documento Completo:** [Acesse os Testes Manuais aqui](https://docs.google.com/document/d/1kNf6tNtkxJ-7kMwsXe0t5jLLEZdVhzWCr9jAtzic4jI/edit?usp=sharing)
+
+---
+
+# Testlink
+
+Abaixo estão detalhados os fluxos de teste para a gestão do carrinho:
+
+* 📄 [Caso de teste: **Adicionar** ao carrinho](docs/caso_de_teste_add_item_carrinho.pdf)
+* 📄 [Caso de teste: **Remover** item do carrinho](docs/caso_de_teste_rem_item_carrinho.pdf)
 
 ### 5. Configuracao de Teste
 
