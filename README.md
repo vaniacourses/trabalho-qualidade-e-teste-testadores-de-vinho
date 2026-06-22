@@ -221,10 +221,12 @@ Testes com Spring Boot + H2 em memoria, testando a camada Controller → Service
 
 **Total de testes de integracao: 43**
 
-**Como executar (excluindo E2E):**
+**Como executar (unitarios + integracao):**
+
+O `pom.xml` ja configura o Maven Surefire para **excluir os testes E2E** (pelo grupo `e2e` e pelo pacote `**/e2e/**`). Portanto, `mvn test` roda apenas unitarios e integracao, sem necessidade de Chrome:
 
 ```bash
-mvn test -Dgroups='!e2e'
+mvn test
 ```
 
 ---
@@ -243,7 +245,7 @@ Os testes E2E adotam a abordagem de **caixa-preta**: o sistema e tratado como um
 | **Particao de equivalencia** | Divide as entradas em classes de equivalencia (validas e invalidas) e testa um representante de cada — ex.: endpoint existente vs. inexistente (404), resposta JSON valida vs. erro 5xx | `PedidoE2ETest`, `ClienteE2ETest`, `CardapioE2ETest`, `GarcomE2ETest` |
 | **Analise de valor-limite** | Verifica os limites aceitaveis de requisitos nao funcionais — ex.: tempo de resposta < 3s para APIs, carregamento de pagina < 5s | `PedidoE2ETest`, `ClienteE2ETest`, `GarcomE2ETest` |
 
-**Ferramentas:** Selenium 4.23.0 + WebDriverManager 5.9.2 (Chrome headless). Requerem a aplicacao rodando em `localhost:8080`.
+**Ferramentas:** Selenium 4.23.0 + WebDriverManager 5.9.3 (Chrome headless). Requerem a aplicacao rodando em `localhost:8080`.
 
 **Arquivos de teste:**
 
@@ -263,12 +265,14 @@ Os testes E2E adotam a abordagem de **caixa-preta**: o sistema e tratado como um
 
 **Como executar os testes E2E:**
 
+Como o `pom.xml` exclui os E2E por padrao (grupo `e2e` e pacote `**/e2e/**`), e necessario sobrescrever ambos os excludes para roda-los:
+
 ```bash
 # 1. Subir a aplicacao
 docker-compose up -d
 
-# 2. Executar apenas os testes E2E
-mvn test -Dgroups=e2e
+# 2. Executar apenas os testes E2E (anulando os excludes do Surefire)
+mvn test -Dsurefire.excludes='' -Dsurefire.excludedGroups='' -Dtest='com.example.waiterapp.e2e.*'
 ```
 
 ### 8.1 Testes de Requisitos Nao Funcionais
@@ -440,11 +444,11 @@ waiterapp/
 git clone <url-do-repositorio>
 cd waiterapp
 
-# Executar apenas os testes unitarios e de integracao (sem banco de dados necessario)
-mvn test -Dgroups='!e2e'
-
-# Executar todos os testes (requer app rodando para E2E)
+# Executar testes unitarios e de integracao (E2E ja sao excluidos pelo pom; sem Chrome necessario)
 mvn test
+
+# Executar os testes E2E (requer Chrome + app rodando em localhost:8080)
+mvn test -Dsurefire.excludes='' -Dsurefire.excludedGroups='' -Dtest='com.example.waiterapp.e2e.*'
 
 # Executar a aplicacao completa com Docker (PostgreSQL incluido)
 docker-compose up
