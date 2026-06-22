@@ -1,6 +1,6 @@
 package com.example.waiterapp.integration;
 
-import com.example.waiterapp.Cliente.ClienteDTO;
+import com.example.waiterapp.cliente.ClienteDTO;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -157,6 +157,19 @@ class ClienteIntegrationTest {
                         .content(objectMapper.writeValueAsString(busca)))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.cpf", is("33322211100")));
+    }
+
+    @Test
+    @DisplayName("POST /api/clientes sem CPF deve criar cliente normalmente")
+    void insereCliente_semCpf_retorna201() throws Exception {
+        ClienteDTO dto = clienteDTO("Sem CPF", "semcpf@test.com", null);
+
+        mockMvc.perform(post("/api/clientes")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(dto)))
+                .andExpect(status().isCreated())
+                .andExpect(jsonPath("$.nome", is("Sem CPF")))
+                .andExpect(jsonPath("$.cpf").doesNotExist());
     }
 
     @Test

@@ -17,7 +17,13 @@ import java.time.Duration;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-public class FinalizarPedidoE2ETest {
+
+// TESTE DE CAIXA PRETA
+// Este teste cobre o fluxo completo de finalização de pedido pelo usuário.
+// O cliente realiza login, seleciona um prato, adiciona o item ao carrinho e finaliza o pedido.
+// A validação ocorre apenas pelo resultado observado na tela ou pela mudança de rota,
+// sem verificar diretamente métodos, serviços ou persistência no banco de dados.
+class FinalizarPedidoE2ETest {
 
     private WebDriver driver;
     private WebDriverWait wait;
@@ -27,10 +33,6 @@ public class FinalizarPedidoE2ETest {
         WebDriverManager.chromedriver().setup();
 
         ChromeOptions options = new ChromeOptions();
-
-        // Deixe comentado para ver o Chrome abrindo durante o teste
-        // options.addArguments("--headless=new");
-
         options.addArguments("--no-sandbox");
         options.addArguments("--disable-dev-shm-usage");
         options.addArguments("--remote-allow-origins=*");
@@ -105,13 +107,13 @@ public class FinalizarPedidoE2ETest {
 
         botaoFinalizarPedido.click();
 
-        wait.until(driver ->
-                driver.getPageSource().contains("Pagamento") ||
-                driver.getPageSource().contains("Pedido finalizado") ||
-                driver.getPageSource().contains("Pedido realizado") ||
-                driver.getPageSource().contains("Forma de pagamento") ||
-                driver.getPageSource().contains("Finalizado") ||
-                !driver.getCurrentUrl().contains("fazer-pedido")
+        wait.until(webDriver ->
+                webDriver.getPageSource().contains("Pagamento") ||
+                webDriver.getPageSource().contains("Pedido finalizado") ||
+                webDriver.getPageSource().contains("Pedido realizado") ||
+                webDriver.getPageSource().contains("Forma de pagamento") ||
+                webDriver.getPageSource().contains("Finalizado") ||
+                !webDriver.getCurrentUrl().contains("fazer-pedido")
         );
 
         String pagina = driver.getPageSource();

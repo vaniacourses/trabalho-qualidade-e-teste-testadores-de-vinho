@@ -9,7 +9,11 @@ import org.openqa.selenium.chrome.ChromeOptions;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-public class AplicacaoE2ETest {
+// TESTE DE CAIXA PRETA
+// Este teste valida se a aplicação está acessível pelo navegador no endereço localhost.
+// A verificação é feita apenas pelo comportamento externo do sistema,
+// conferindo se a página carrega algum conteúdo, sem analisar a lógica interna da aplicação.
+class AplicacaoE2ETest {
 
     private WebDriver driver;
 
@@ -31,7 +35,7 @@ public class AplicacaoE2ETest {
         String pagina = driver.getPageSource();
 
         assertTrue(
-                pagina.length() > 0,
+                !pagina.isEmpty(),
                 "A página da aplicação deveria carregar algum conteúdo"
         );
     }

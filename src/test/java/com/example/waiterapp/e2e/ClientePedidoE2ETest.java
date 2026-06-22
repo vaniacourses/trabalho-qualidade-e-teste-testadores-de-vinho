@@ -17,7 +17,12 @@ import java.time.Duration;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-public class ClientePedidoE2ETest {
+
+// TESTE DE CAIXA PRETA
+// Este teste valida o fluxo de escolha de um prato e inclusão no carrinho pela visão do cliente.
+// A aplicação é utilizada pela interface gráfica, com clique no card do prato e no botão de adicionar.
+// como valor total ou opção de finalizar pedido, sem acesso à implementação interna.
+class ClientePedidoE2ETest {
 
     private WebDriver driver;
     private WebDriverWait wait;
@@ -27,10 +32,6 @@ public class ClientePedidoE2ETest {
         WebDriverManager.chromedriver().setup();
 
         ChromeOptions options = new ChromeOptions();
-
-        // Deixe comentado para ver o navegador abrindo
-        // options.addArguments("--headless=new");
-
         options.addArguments("--no-sandbox");
         options.addArguments("--disable-dev-shm-usage");
         options.addArguments("--remote-allow-origins=*");
