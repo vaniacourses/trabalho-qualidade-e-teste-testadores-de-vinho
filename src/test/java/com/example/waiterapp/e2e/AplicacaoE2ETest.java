@@ -9,6 +9,10 @@ import org.openqa.selenium.chrome.ChromeOptions;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+// TESTE DE CAIXA PRETA
+// Este teste valida se a aplicação está acessível pelo navegador no endereço localhost.
+// A verificação é feita apenas pelo comportamento externo do sistema,
+// conferindo se a página carrega algum conteúdo, sem analisar a lógica interna da aplicação.
 class AplicacaoE2ETest {
 
     private WebDriver driver;

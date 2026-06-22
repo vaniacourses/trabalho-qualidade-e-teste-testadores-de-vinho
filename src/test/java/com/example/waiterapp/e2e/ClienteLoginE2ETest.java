@@ -17,7 +17,14 @@ import java.time.Duration;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-class ClienteLoginE2ETest {
+
+// TESTE DE CAIXA PRETA
+// Este teste simula o fluxo de login do cliente como um usuário real faria.
+// São informados nome e CPF, o botão Continuar é acionado
+// e o resultado esperado é que o sistema avance para outra tela.
+// O teste não verifica como o login é processado internamente,
+// apenas se o comportamento final da interface está correto.
+public class ClienteLoginE2ETest {
 
     private WebDriver driver;
     private WebDriverWait wait;
@@ -27,6 +34,10 @@ class ClienteLoginE2ETest {
         WebDriverManager.chromedriver().setup();
 
         ChromeOptions options = new ChromeOptions();
+
+        // Deixe comentado para ver o Chrome abrindo
+        // options.addArguments("--headless=new");
+
         options.addArguments("--no-sandbox");
         options.addArguments("--disable-dev-shm-usage");
         options.addArguments("--remote-allow-origins=*");
@@ -49,7 +60,7 @@ class ClienteLoginE2ETest {
         );
 
         campoNome.clear();
-        campoNome.sendKeys("Felipe Teste");
+        campoNome.sendKeys("Guilherme Teste");
 
         campoCpf.clear();
         campoCpf.sendKeys("12345678901");
@@ -75,7 +86,7 @@ class ClienteLoginE2ETest {
         );
 
         assertTrue(
-                !pagina.isEmpty(),
+                pagina.length() > 0,
                 "A próxima tela deveria carregar conteúdo"
         );
     }

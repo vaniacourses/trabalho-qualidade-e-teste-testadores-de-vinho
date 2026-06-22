@@ -19,6 +19,13 @@ import java.time.Duration;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+
+// TESTE DE CAIXA PRETA
+// Este teste avalia o comportamento da aplicação no fluxo de exclusão de pedido.
+// Primeiro é criado um pedido pela interface, depois o pedido é selecionado,
+// excluído e confirmado pelo usuário.
+// A validação final verifica se o pedido deixou de aparecer na lista,
+// sem analisar a lógica interna responsável pela exclusão.
 class ExcluirPedidoE2ETest {
 
     private WebDriver driver;

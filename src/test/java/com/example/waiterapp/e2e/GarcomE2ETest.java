@@ -8,6 +8,12 @@ import org.openqa.selenium.WebElement;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+// TESTE DE CAIXA PRETA
+// Estes testes validam o comportamento externo das funcionalidades relacionadas ao garçom.
+// A análise é feita a partir das respostas da aplicação e dos endpoints,
+// verificando JSON válido, ausência de erros 5xx, resposta do servidor e tempo aceitável,
+// sem inspecionar a implementação interna do backend.
+
 @Tag("e2e")
 @DisplayName("Testes E2E - Garçom")
 class GarcomE2ETest extends BaseSeleniumTest {

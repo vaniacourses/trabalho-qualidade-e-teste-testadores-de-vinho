@@ -7,6 +7,12 @@ import org.openqa.selenium.By;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+// TESTE DE CAIXA PRETA
+// Esta classe testa aspectos externos do módulo de pedidos e do carregamento da aplicação.
+// As validações observam apenas o que é retornado ao navegador,
+// como título da página, elementos Angular, resposta JSON da API,
+// tempo de carregamento e ausência de erro 500.
+
 @Tag("e2e")
 @DisplayName("Testes E2E - Pedidos")
 class PedidoE2ETest extends BaseSeleniumTest {
