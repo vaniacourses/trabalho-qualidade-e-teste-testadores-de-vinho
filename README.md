@@ -14,7 +14,7 @@ Este repositorio contem a documentacao e os testes do **WaiterApp**. O **segundo
 
 O **WaiterApp** e uma API REST de gerenciamento de pedidos para restaurantes, com frontend Angular embutido. O sistema permite que garcons registrem e acompanhem pedidos de clientes, consultem o cardapio, gerenciem itens e processem pagamentos.
 
-### Funcionalidades principaisp
+### Funcionalidades principais
 
 | Modulo | Descricao |
 |---|---|
@@ -28,7 +28,7 @@ O **WaiterApp** e uma API REST de gerenciamento de pedidos para restaurantes, co
 
 ### Tecnologias do sistema
 
-- **Linguagem:** Java 9+
+- **Linguagem:** Java 11 (runtime Docker; nivel de compilacao `source`/`target` 9 no `pom.xml`)
 - **Framework:** Spring Boot 2.7.1
 - **Persistencia:** Spring Data JPA / Hibernate + PostgreSQL
 - **Frontend:** Angular (bundled em `src/main/resources/static/`)
@@ -137,7 +137,7 @@ Resultados de cobertura do JaCoCo (testes unitarios + integracao; E2E excluidos 
 
 | Grupo | Classes | Metodos | Linhas | Branches (decisoes) |
 |---|---:|---:|---:|---:|
-| `com.example.waiterapp` | **97%** (32/33) | **79%** (239/302) | **78.6%** (609/775) | **38.3%** (23/60) |
+| `com.example.waiterapp` | **94%** (32/34) | **74%** (242/327) | **73.3%** (622/848) | **38.3%** (23/60) |
 
 **Cobertura de branches por classe (classes com logica nao-trivial):**
 
@@ -230,21 +230,35 @@ mvn test -Dgroups='!e2e'
 
 ---
 
-### 8. Testes de Sistema / E2E (Selenium)
+### 8. Testes de Sistema / E2E (Selenium) — Teste Caixa-Preta
 
-Testes de ponta a ponta com Selenium 4 + WebDriverManager. Requerem a aplicacao rodando em `localhost:8080`.
+**Abordagem: Teste Caixa-Preta (Black-Box)**
 
-| Arquivo | Cenarios | Testes | Link |
-|---|---|---|---|
-| `AplicacaoE2ETest.java` | Carregamento inicial da aplicacao | 1 | [`src/test/.../e2e/AplicacaoE2ETest.java`](src/test/java/com/example/waiterapp/e2e/AplicacaoE2ETest.java) |
-| `ClienteLoginE2ETest.java` | Login do cliente (nome + CPF) | 1 | [`src/test/.../e2e/ClienteLoginE2ETest.java`](src/test/java/com/example/waiterapp/e2e/ClienteLoginE2ETest.java) |
-| `ClientePedidoE2ETest.java` | Adicionar prato ao carrinho | 1 | [`src/test/.../e2e/ClientePedidoE2ETest.java`](src/test/java/com/example/waiterapp/e2e/ClientePedidoE2ETest.java) |
-| `FinalizarPedidoE2ETest.java` | Finalizar pedido com item no carrinho | 1 | [`src/test/.../e2e/FinalizarPedidoE2ETest.java`](src/test/java/com/example/waiterapp/e2e/FinalizarPedidoE2ETest.java) |
-| `ExcluirPedidoE2ETest.java` | Criar e excluir pedido | 1 | [`src/test/.../e2e/ExcluirPedidoE2ETest.java`](src/test/java/com/example/waiterapp/e2e/ExcluirPedidoE2ETest.java) |
-| `PedidoE2ETest.java` | API de pedidos, tempo de resposta | 5 | [`src/test/.../e2e/PedidoE2ETest.java`](src/test/java/com/example/waiterapp/e2e/PedidoE2ETest.java) |
-| `ClienteE2ETest.java` | API de clientes, elementos Angular, performance | 5 | [`src/test/.../e2e/ClienteE2ETest.java`](src/test/java/com/example/waiterapp/e2e/ClienteE2ETest.java) |
-| `CardapioE2ETest.java` | API de cardapios, 404, itens | 5 | [`src/test/.../e2e/CardapioE2ETest.java`](src/test/java/com/example/waiterapp/e2e/CardapioE2ETest.java) |
-| `GarcomE2ETest.java` | API de garcons, Swagger UI, performance | 5 | [`src/test/.../e2e/GarcomE2ETest.java`](src/test/java/com/example/waiterapp/e2e/GarcomE2ETest.java) |
+Os testes E2E adotam a abordagem de **caixa-preta**: o sistema e tratado como uma caixa fechada, sem acesso ou conhecimento do codigo-fonte interno. Os testes interagem exclusivamente com a interface do usuario (navegador) e com os endpoints HTTP expostos, verificando se as saidas produzidas correspondem ao comportamento esperado para cada entrada.
+
+**Tecnicas de caixa-preta utilizadas:**
+
+| Tecnica | Descricao | Testes que aplicam |
+|---|---|---|
+| **Teste baseado em caso de uso** | Simula fluxos completos do usuario do inicio ao fim (login → selecionar prato → adicionar ao carrinho → finalizar pedido → excluir pedido) | `ClienteLoginE2ETest`, `ClientePedidoE2ETest`, `FinalizarPedidoE2ETest`, `ExcluirPedidoE2ETest`, `AplicacaoE2ETest` |
+| **Particao de equivalencia** | Divide as entradas em classes de equivalencia (validas e invalidas) e testa um representante de cada — ex.: endpoint existente vs. inexistente (404), resposta JSON valida vs. erro 5xx | `PedidoE2ETest`, `ClienteE2ETest`, `CardapioE2ETest`, `GarcomE2ETest` |
+| **Analise de valor-limite** | Verifica os limites aceitaveis de requisitos nao funcionais — ex.: tempo de resposta < 3s para APIs, carregamento de pagina < 5s | `PedidoE2ETest`, `ClienteE2ETest`, `GarcomE2ETest` |
+
+**Ferramentas:** Selenium 4.23.0 + WebDriverManager 5.9.2 (Chrome headless). Requerem a aplicacao rodando em `localhost:8080`.
+
+**Arquivos de teste:**
+
+| Arquivo | Cenarios | Tecnica caixa-preta | Testes | Link |
+|---|---|---|---|---|
+| `AplicacaoE2ETest.java` | Carregamento inicial da aplicacao | Caso de uso | 1 | [`src/test/.../e2e/AplicacaoE2ETest.java`](src/test/java/com/example/waiterapp/e2e/AplicacaoE2ETest.java) |
+| `ClienteLoginE2ETest.java` | Login do cliente (nome + CPF) | Caso de uso | 1 | [`src/test/.../e2e/ClienteLoginE2ETest.java`](src/test/java/com/example/waiterapp/e2e/ClienteLoginE2ETest.java) |
+| `ClientePedidoE2ETest.java` | Adicionar prato ao carrinho | Caso de uso | 1 | [`src/test/.../e2e/ClientePedidoE2ETest.java`](src/test/java/com/example/waiterapp/e2e/ClientePedidoE2ETest.java) |
+| `FinalizarPedidoE2ETest.java` | Finalizar pedido com item no carrinho | Caso de uso | 1 | [`src/test/.../e2e/FinalizarPedidoE2ETest.java`](src/test/java/com/example/waiterapp/e2e/FinalizarPedidoE2ETest.java) |
+| `ExcluirPedidoE2ETest.java` | Criar e excluir pedido | Caso de uso | 1 | [`src/test/.../e2e/ExcluirPedidoE2ETest.java`](src/test/java/com/example/waiterapp/e2e/ExcluirPedidoE2ETest.java) |
+| `PedidoE2ETest.java` | API de pedidos, tempo de resposta | Particao de equivalencia + Valor-limite | 5 | [`src/test/.../e2e/PedidoE2ETest.java`](src/test/java/com/example/waiterapp/e2e/PedidoE2ETest.java) |
+| `ClienteE2ETest.java` | API de clientes, elementos Angular, performance | Particao de equivalencia + Valor-limite | 5 | [`src/test/.../e2e/ClienteE2ETest.java`](src/test/java/com/example/waiterapp/e2e/ClienteE2ETest.java) |
+| `CardapioE2ETest.java` | API de cardapios, 404, itens | Particao de equivalencia | 5 | [`src/test/.../e2e/CardapioE2ETest.java`](src/test/java/com/example/waiterapp/e2e/CardapioE2ETest.java) |
+| `GarcomE2ETest.java` | API de garcons, Swagger UI, performance | Particao de equivalencia + Valor-limite | 5 | [`src/test/.../e2e/GarcomE2ETest.java`](src/test/java/com/example/waiterapp/e2e/GarcomE2ETest.java) |
 
 **Total de testes E2E: 25** (classe base `BaseSeleniumTest.java` compartilhada)
 
@@ -260,17 +274,42 @@ mvn test -Dgroups=e2e
 
 ---
 
-### 9. Cobertura Estrutural (JaCoCo — Tecnica Todas-Arestas)
+### 8.1 Testes de Requisitos Nao Funcionais
 
-Resultados medidos em 2026-06-14 apos todas as melhorias da Entrega 2 (E2E contabilizados separadamente):
+Alem dos requisitos funcionais, os testes E2E verificam **requisitos nao funcionais** do sistema, mapeados para subcaracteristicas da ISO/IEC 25010:
+
+| Requisito Nao Funcional | Subcaracteristica (ISO 25010) | Teste | Criterio de Aceite |
+|---|---|---|---|
+| Tempo de carregamento da pagina | Eficiencia de desempenho → Comportamento temporal | `paginaPrincipal_tempoCarregamento_deveSerAceitavel` | < 5 segundos |
+| Tempo de resposta das APIs | Eficiencia de desempenho → Comportamento temporal | `apiClientes_tempoResposta_deveSerAceitavel`, `apiGarcons_tempoResposta_deveSerAceitavel` | < 3 segundos |
+| Ausencia de erros 5xx | Confiabilidade → Disponibilidade | `apiPedidos_semDados_naoRetornaErro500`, `apiGarcons_getEndpoint_naoRetornaErro5xx`, `apiClientes_getEndpoint_naoRetornaErro5xx` | Nenhum erro de servidor |
+| Documentacao da API acessivel | Usabilidade → Operabilidade | `swaggerUi_deveEstarAcessivel` | Swagger UI carrega corretamente |
+| Frontend carrega com backend | Compatibilidade → Coexistencia | `aplicativo_paginaPrincipal_contemElementoAngular` | Elementos Angular presentes na pagina |
+
+---
+
+### 9. Teste Estrutural / Caixa-Branca (JaCoCo) — Criterio Todas-Arestas
+
+**Abordagem: Teste Caixa-Branca (White-Box)**
+
+Diferente do teste caixa-preta (que nao conhece a implementacao), o **teste caixa-branca** (ou teste estrutural) utiliza o conhecimento do codigo-fonte para derivar os casos de teste. O objetivo e garantir que a estrutura interna do programa — seus caminhos, decisoes e ramificacoes — seja exercitada adequadamente.
+
+**Criterio adotado: Todas-Arestas (Branch Coverage / All-Edges)**
+
+O criterio **todas-arestas** exige que cada aresta do grafo de fluxo de controle (CFG) seja percorrida ao menos uma vez. Na pratica, isso significa que todo desvio condicional (`if`, `else`, `switch`, `for`, ternarios) deve ter tanto o ramo verdadeiro quanto o falso exercitados pelos testes. Este criterio e mais rigoroso que "todas-instrucoes" (line coverage) pois garante que ambos os lados de cada decisao foram testados.
+
+**Ferramenta de medicao:** JaCoCo 0.8.11 (integrado ao Maven via `jacoco-maven-plugin`). O JaCoCo instrumenta o bytecode e mede a metrica "Branches" que corresponde diretamente ao criterio todas-arestas.
+
+**Resultados** (medidos em 2026-06-21, E2E contabilizados separadamente):
 
 **Totais gerais:**
 
 | Metrica | Resultado |
 |---|---:|
-| Classes | **97%** (32/33) |
-| Metodos | **79.1%** (239/302) |
-| Linhas | **78.6%** (609/775) |
+| Classes | **94%** (32/34) |
+| Metodos | **74.0%** (242/327) |
+| Linhas | **73.3%** (622/848) |
+| Instrucoes | **74.7%** (2441/3267) |
 | Branches | **38.3%** (23/60) |
 
 **Classes de alta complexidade (criterio todas-arestas >= 80%):**
@@ -313,11 +352,22 @@ mvn pitest:mutationCoverage
 
 ---
 
-### 11. Inspecao de Codigo (SonarCloud)
+### 11. Inspecao de Codigo (SonarCloud) — Analise Estatica
+
+**Metodo: Analise Estatica de Codigo (Static Analysis)**
+
+O SonarCloud/SonarQube utiliza a tecnica de **analise estatica**, que examina o codigo-fonte *sem executa-lo*. A ferramenta percorre a AST (Abstract Syntax Tree) do codigo e aplica um conjunto de regras pre-definidas para detectar:
+
+- **Bugs** — defeitos que podem causar comportamento incorreto em tempo de execucao
+- **Vulnerabilidades** — falhas de seguranca (ex.: SQL injection, XSS, credenciais hardcoded)
+- **Code Smells** — problemas de manutenibilidade (complexidade ciclomatica alta, duplicacao, nomes ruins)
+- **Hotspots de seguranca** — trechos que exigem revisao manual
+
+A analise estatica complementa os testes dinamicos (unitarios, integracao, E2E) pois detecta problemas que testes podem nao exercitar — como codigo morto, tratamento de excecoes ausente ou violacoes de boas praticas.
 
 | Artefato | Link |
 |---|---|
-| Apresentacao SonarQube | [`docs/WaiterApp_SonarQube.pptx`](docs/WaiterApp_SonarQube.pptx) |
+| Apresentacao SonarQube (resultados + correcoes) | [`docs/WaiterApp_SonarQube.pptx`](docs/WaiterApp_SonarQube.pptx) |
 
 **Como executar a analise localmente:**
 
