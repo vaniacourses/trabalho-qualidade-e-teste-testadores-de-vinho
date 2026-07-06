@@ -1,0 +1,19 @@
+﻿WaiterApp â€” Resumo JaCoCo
+Gerado em: 2026-07-06 19:01
+
+INSTRUCTION: cobertura no relatorio HTML
+BRANCH: 70/70 (100%)
+LINE: 873/896 (97.4%)
+METHOD: 327/332 (98.5%)
+CLASS: 32/33 (97%)
+
+Relatorio HTML: target\site\jacoco\index.html
+
+Capturas de tela nesta pasta:
+  01-visao-geral.png       â€” painel principal do projeto
+  02-pacote-pedido.png     â€” cobertura do pacote pedido
+  03-pedido-service.png    â€” detalhe PedidoService (branches)
+  04-pedido-entidade.png   â€” detalhe Pedido (codigo-fonte colorido)
+  05-pacote-item.png       â€” cobertura do pacote item
+  06-pacote-cliente.png    â€” cobertura do pacote cliente
+  07-sessoes-execucao.png  â€” sessoes de execucao dos testes

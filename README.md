@@ -139,34 +139,41 @@ mvn test
 
 ### 5.1 Cobertura de Testes (JaCoCo)
 
-Resultados de cobertura do JaCoCo medidos no ambiente do projeto (Java 11) com os 277 testes unitarios + 43 de integracao (E2E excluidos por requererem Chrome):
+Resultados de cobertura do JaCoCo medidos no ambiente do projeto (Java 21) com os 277 testes unitarios + 43 de integracao (E2E excluidos por requererem Chrome):
 
 | Grupo | Classes | Metodos | Linhas | Branches (decisoes) |
 |---|---:|---:|---:|---:|
-| `com.example.waiterapp` | **94%** (32/34) | **78%** (255/327) | **81%** (650/848) | **90%** (54/60) |
+| `com.example.waiterapp` | **97%** (32/33) | **98%** (327/332) | **97%** (873/896) | **100%** (70/70) |
 
 **Cobertura de branches por classe (criterio todas-arestas >= 80%):**
 
 | Classe | Branches cobertos | % Branches | Status |
 |---|---|---|---|
-| `PedidoService` | 4/4 | **100%** | ✅ |
-| `Pedido` | 10/10 | **100%** | ✅ |
+| `PedidoService` | 2/2 | **100%** | ✅ |
+| `Pedido` | 6/6 | **100%** | ✅ |
 | `Item` | 6/6 | **100%** | ✅ |
 | `ClienteController` | 4/4 | **100%** | ✅ |
-| `ItemPedidoPK` | 9/10 | **90%** | ✅ |
-| `Cliente` | 9/10 | **90%** | ✅ |
-| `Pagamento` | 5/6 | **83.3%** | ✅ |
-| `Garcom` | 5/6 | **83.3%** | ✅ |
-| `Cardapio` | 5/6 | **83.3%** | ✅ |
-| `Ingrediente` | 5/6 | **83.3%** | ✅ |
+| `ItemPedidoPK` | 10/10 | **100%** | ✅ |
+| `Cliente` | 6/6 | **100%** | ✅ |
+| `Pagamento` | 6/6 | **100%** | ✅ |
+| `Garcom` | 6/6 | **100%** | ✅ |
+| `Cardapio` | 6/6 | **100%** | ✅ |
+| `Ingrediente` | 6/6 | **100%** | ✅ |
 
-> **Observacao:** A meta de **>= 80% de branches (todas-arestas)** foi atingida no total do projeto. Os branches restantes (6/60) concentram-se em arestas pontuais de `equals`/`hashCode` em entidades JPA.
+> **Observacao:** A meta de **>= 80% de branches (todas-arestas)** foi atingida no total do projeto com **100% (70/70)**. Os testes de `equals`/`hashCode` nas entidades JPA cobrem todos os ramos condicionais.
+
+| Artefato | Link |
+|---|---|
+| Evidencias — relatorios JaCoCo (prints) | [`docs/evidencias-jacoco/`](docs/evidencias-jacoco/) |
+| Script para regenerar evidencias | [`docs/gerar-evidencias-jacoco.ps1`](docs/gerar-evidencias-jacoco.ps1) |
+
+A pasta `docs/evidencias-jacoco/` contem capturas de tela do relatorio HTML (visao geral, pacotes, classes-chave e sessoes de execucao), alem de um resumo textual das metricas.
 
 **Como visualizar o relatorio (HTML):**
 
-```bash
-./mvnw clean test jacoco:report -Dmaven.test.failure.ignore=true
-# Abrir: target/site/jacoco/index.html
+```powershell
+.\mvnw.cmd test
+start target\site\jacoco\index.html
 ```
 
 ### 5.2 Gate de cobertura minima (80% de branches) no build
@@ -301,11 +308,11 @@ O criterio **todas-arestas** exige que cada aresta do grafo de fluxo de controle
 
 **Ferramenta de medicao:** JaCoCo 0.8.11 (integrado ao Maven via `jacoco-maven-plugin`). O JaCoCo instrumenta o bytecode e mede a metrica "Branches", que corresponde diretamente ao criterio todas-arestas. O `pom.xml` impoe um gate de **80% de branches** (ver secao 5.2).
 
-**Resultado:** o criterio todas-arestas atingiu **90% (54/60)** no total do projeto, superando a meta de 80%. A tabela por classe e os totais gerais estao na [secao 5.1](#51-cobertura-de-testes-jacoco).
+**Resultado:** o criterio todas-arestas atingiu **100% (70/70)** no total do projeto, superando a meta de 80%. A tabela por classe e os totais gerais estao na [secao 5.1](#51-cobertura-de-testes-jacoco).
 
-```bash
-./mvnw clean test jacoco:report -Dmaven.test.failure.ignore=true
-# Abrir: target/site/jacoco/index.html
+```powershell
+.\mvnw.cmd test
+start target\site\jacoco\index.html
 ```
 
 ---
@@ -343,6 +350,10 @@ O SonarCloud/SonarQube utiliza a tecnica de **analise estatica**, que examina o 
 - **Hotspots de seguranca** — trechos que exigem revisao manual
 
 A analise estatica complementa os testes dinamicos (unitarios, integracao, E2E) pois detecta problemas que testes podem nao exercitar — como codigo morto, tratamento de excecoes ausente ou violacoes de boas praticas.
+
+| Artefato | Link |
+|---|---|
+| Evidencias — inspecao SonarQube (apresentacao) | [`docs/WaiterApp_SonarQube.pptx`](docs/WaiterApp_SonarQube.pptx) |
 
 **Como executar a analise localmente:**
 
@@ -382,6 +393,9 @@ waiterapp/
 ├── docs/
 │   ├── plano-de-teste.md                       # Plano de Teste
 │   ├── medidas-iso-25010.md                     # Medidas de Qualidade ISO/IEC 25010
+│   ├── evidencias-jacoco/                       # Prints do relatorio JaCoCo
+│   ├── gerar-evidencias-jacoco.ps1              # Script para regenerar evidencias JaCoCo
+│   ├── WaiterApp_SonarQube.pptx                 # Evidencias da inspecao SonarQube
 │   ├── caso_de_teste_add_item_carrinho.pdf      # Caso de teste manual — adicionar item
 │   └── caso_de_teste_rem_item_carrinho.pdf      # Caso de teste manual — remover item
 ├── src/
@@ -454,8 +468,11 @@ mvn test -Dsurefire.excludes='' -Dsurefire.excludedGroups='' -Dtest='com.example
 docker-compose up
 
 # Gerar relatorio de cobertura JaCoCo
-./mvnw clean test jacoco:report
-# Abrir: target/site/jacoco/index.html
+.\mvnw.cmd test
+start target\site\jacoco\index.html
+
+# Regenerar evidencias (prints) do JaCoCo
+.\docs\gerar-evidencias-jacoco.ps1
 
 # Validar o gate de 80% de branches
 ./mvnw clean verify
