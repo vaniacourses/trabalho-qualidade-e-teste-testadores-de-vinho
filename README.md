@@ -325,15 +325,24 @@ Classes-alvo: `Pedido`, `PedidoService`, `ItemService`, `Pagamento`, `PagamentoC
 
 | Metrica | Valor |
 |---|---|
-| Mutantes gerados | 62 |
-| Mutantes mortos | 59 (95%) |
+| Classes analisadas | 6 |
+| Line Coverage (classes mutadas) | 91% (154/169) |
+| Mutantes gerados | 65 |
+| Mutantes mortos | 60 (92%) |
 | Test Strength | **100%** |
+
+| Artefato | Link |
+|---|---|
+| Evidencias — relatorios PITest (prints) | [`docs/evidencias-pit/`](docs/evidencias-pit/) |
+| Script para regenerar evidencias | [`docs/gerar-evidencias-pit.ps1`](docs/gerar-evidencias-pit.ps1) |
+
+A pasta `docs/evidencias-pit/` contem capturas de tela do relatorio HTML (resumo geral, pacotes e classes-alvo), alem de um resumo textual das metricas.
 
 **Como executar:**
 
-```bash
-mvn pitest:mutationCoverage
-# Relatorio em: target/pit-reports/index.html
+```powershell
+.\mvnw.cmd org.pitest:pitest-maven:mutationCoverage
+start target\pit-reports\index.html
 ```
 
 ---
@@ -394,7 +403,9 @@ waiterapp/
 │   ├── plano-de-teste.md                       # Plano de Teste
 │   ├── medidas-iso-25010.md                     # Medidas de Qualidade ISO/IEC 25010
 │   ├── evidencias-jacoco/                       # Prints do relatorio JaCoCo
+│   ├── evidencias-pit/                          # Prints do relatorio PITest
 │   ├── gerar-evidencias-jacoco.ps1              # Script para regenerar evidencias JaCoCo
+│   ├── gerar-evidencias-pit.ps1                 # Script para regenerar evidencias PITest
 │   ├── WaiterApp_SonarQube.pptx                 # Evidencias da inspecao SonarQube
 │   ├── caso_de_teste_add_item_carrinho.pdf      # Caso de teste manual — adicionar item
 │   └── caso_de_teste_rem_item_carrinho.pdf      # Caso de teste manual — remover item
@@ -478,8 +489,11 @@ start target\site\jacoco\index.html
 ./mvnw clean verify
 
 # Executar teste de mutacao (PITest)
-mvn pitest:mutationCoverage
-# Relatorio em: target/pit-reports/index.html
+.\mvnw.cmd org.pitest:pitest-maven:mutationCoverage
+start target\pit-reports\index.html
+
+# Regenerar evidencias (prints) do PITest
+.\docs\gerar-evidencias-pit.ps1
 ```
 
 ---

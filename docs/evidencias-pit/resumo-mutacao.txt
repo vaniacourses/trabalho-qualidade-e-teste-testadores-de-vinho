@@ -1,0 +1,18 @@
+﻿WaiterApp - Resumo PITest
+Gerado em: 2026-07-06 19:20
+
+Classes analisadas: 6
+Line Coverage (classes mutadas): 154/169 (91%)
+Mutantes gerados: 65
+Mutantes mortos: 60 (92%)
+Test Strength: 60/60 (100%)
+
+Relatorio HTML: target\pit-reports\index.html
+
+Capturas de tela nesta pasta:
+  01-visao-geral.png          - resumo do projeto
+  02-pacote-pedido.png        - pacote pedido
+  03-pedido-service.png       - detalhe PedidoService
+  04-pedido-entidade.png      - detalhe Pedido
+  05-pacote-item.png          - pacote item (ItemService)
+  06-pacote-pagamento.png     - pacote pagamento

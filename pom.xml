@@ -180,18 +180,18 @@
                 </dependencies>
                 <configuration>
                     <targetClasses>
-                        <param>com.example.waiterapp.Pedido.Pedido</param>
-                        <param>com.example.waiterapp.Pedido.PedidoService</param>
-                        <param>com.example.waiterapp.Item.ItemService</param>
-                        <param>com.example.waiterapp.Pagamento.Pagamento</param>
-                        <param>com.example.waiterapp.Pagamento.PagamentoComCartao.*</param>
-                        <param>com.example.waiterapp.Pagamento.PagamentoComDinheiro.*</param>
+                        <param>com.example.waiterapp.pedido.Pedido</param>
+                        <param>com.example.waiterapp.pedido.PedidoService</param>
+                        <param>com.example.waiterapp.item.ItemService</param>
+                        <param>com.example.waiterapp.pagamento.Pagamento</param>
+                        <param>com.example.waiterapp.pagamento.pagamentocomcartao.*</param>
+                        <param>com.example.waiterapp.pagamento.pagamentocomdinheiro.*</param>
                     </targetClasses>
                     <targetTests>
                         <param>com.example.waiterapp.*Test</param>
-                        <param>com.example.waiterapp.Pedido.*Test</param>
-                        <param>com.example.waiterapp.Item.*Test</param>
-                        <param>com.example.waiterapp.Pagamento.*Test</param>
+                        <param>com.example.waiterapp.pedido.*Test</param>
+                        <param>com.example.waiterapp.item.*Test</param>
+                        <param>com.example.waiterapp.pagamento.*Test</param>
                     </targetTests>
                     <excludedTestClasses>
                         <param>com.example.waiterapp.e2e.*</param>
